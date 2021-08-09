@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pace Calculator</title>
+
+    <style>
+        body{
+            background-color: rgba(139, 51, 69, 0.61);
+        }
+    </style>
+</head>
+<body>
+    
+<label for="">time</label>
+<!-- <input type="number" id="time" onkeyup="log(this)">  -->
+<input type="number" id="hour" step='1' min='0' minlength="1" size='7' placeholder="00">
+<label for="">hour</label>
+
+<!-- implement so that if go over 59 automatically adds 1 to next higher time input -->
+<!-- or maybe let go as high as user want and auto convert it -->
+<input type="number" id="min" step='1' min='0' max='59' minlength="1" size='7' placeholder="00">
+<label for="">min</label>
+
+<input type="number" id="sec" step='1' min='0' max='59' minlength="1" size='7' placeholder="00">
+<label for="">sec</label>
+
+
+<br>
+<label for="">distance</label>
+<input type="number" id="distance" step='1' min='0' minlength="1" size='7'> 
+<label for="">unit</label>
+<input type="text" id='distance-unit' name="" list="distance-units" size='12' placeholder="km or mi">
+    <datalist id="distance-units">
+      <option value="km">
+      <option value="mi">
+    </datalist>
+
+<br>
+<label for="">pace</label>
+<input type="number" id="pace" step='1' min='0' minlength="1" size='7'>  
+<label for="">unit</label>
+<!-- allow for 8.27 min/km to be interpret as 8:27 min/km-->
+<input type="text" id="pace-unit" name="" list="pace-units" size='14' placeholder="min/km or min/mi">
+<!-- if press k/ki default to minutes per km, ditto for m/mi and min/mile -->
+<datalist id="pace-units">
+    <option value="min/km">
+    <option value="min/mi">
+  </datalist>
+
+  <br>
+  <br>
+
+  <button type="button" onclick="calculate()">Calculate</button>
+  <button type="button" onclick="clearValue()">Clear</button>
+  <button type="button" onclick="logCurrentInputs()">Log</button>
+  <button type="button" onclick="logCurrentBaseUnits()">Log base units</button>
+
+
+<br>
+<br>
+<br>
+
+<p>pace = time/distance</p>
+<p>distance = time/pace</p>
+<p>time = pace*distance</p>
+
+
+<script src="index.js"></script>
+</body>
+</html>
