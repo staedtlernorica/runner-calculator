@@ -26,6 +26,14 @@ function roundTwoDigits(number){
 };
 
 
+function paceTimeDisplay(time){
+
+    min = Math.floor(time);
+    second = Math.round((time - min)*60);
+    return (`${min}:${second}`)
+};
+
+
 function convertToSmallestUnit(baseUnit){
     updateInputs();
 
@@ -105,10 +113,10 @@ function calculate(){
         paceMinMi = roundTwoDigits(paceSecMeter*1609.34/60);
 
         if (paceUnit == 'min/km'){
-            document.getElementById('pace').value = paceMinKm;
+            document.getElementById('pace').value = (paceMinKm);
         
         }else if (paceUnit == 'min/mi'){
-            document.getElementById('pace').value = paceMinMi;
+            document.getElementById('pace').value = (paceMinMi);
         };
     };
 };
