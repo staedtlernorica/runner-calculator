@@ -28,43 +28,56 @@ function updateInputs() {
 };
 
 //potentially round up for values like x.99 
-function roundTwoDigits(number){
-    return Math.round(number*100)/100;
+// change name to roundTwoDecimals
+function roundTwoDigits(number) {
+    return Math.round(number * 100) / 100;
 };
 
 
-function paceTimeDisplay(time){
+function clearInputs(field) {
+
+    if (field == 'time'){
+        hour = min = sec = null;
+    } else if (field == 'distance'){
+        distance = null;
+    } else if (field == 'pace'){
+        pace = null;
+    }
+
+};
+
+
+function paceTimeDisplay(time) {
 
     min = Math.floor(time);
-    second = Math.round((time - min)*60);
+    second = Math.round((time - min) * 60);
     return (`${min}:${second}`)
 };
 
 
-function convertToSmallestUnit(baseUnit){
+function convertToSmallestUnit(baseUnit) {
     updateInputs();
 
-    if (baseUnit == 'sec'){
+    if (baseUnit == 'sec') {
         return (hour * 3600 + min * 60 + sec);
-    
-    }else if (baseUnit == 'meter'){
-        
-        if (distanceKm == true){            
-            return (distance*1000);
-        } else if (distanceMi == true){
-            return (distance*1609.34);
+
+    } else if (baseUnit == 'meter') {
+
+        if (distanceKm == true) {
+            return (distance * 1000);
+        } else if (distanceMi == true) {
+            return (distance * 1609.34);
         }
 
-    }else if (baseUnit == 'secPerMeter'){
-        
-        let paceTime = paceMin*60 + paceSec;
+    } else if (baseUnit == 'secPerMeter') {
 
+        let paceTime = paceMin * 60 + paceSec;
 
-        if (paceKm == true){
-            return (paceTime/1000);
-        } else if (paceMi == true){
-            return (paceTime/1609.34);
-        } 
+        if (paceKm == true) {
+            return (paceTime / 1000);
+        } else if (paceMi == true) {
+            return (paceTime / 1609.34);
+        }
     }
 };
 
@@ -74,7 +87,7 @@ let distMeter = convertToSmallestUnit('meter');
 let paceSecMeter = convertToSmallestUnit('secPerMeter');
 
 
-function updateAll(){
+function updateAll() {
     updateInputs();
     timeSec = convertToSmallestUnit('sec');
     distMeter = convertToSmallestUnit('meter');
@@ -88,44 +101,44 @@ function updateAll(){
 
 
 
-function calculate(){
+function calculate() {
     updateAll();
     // checkInputs();   no negative numbers either
 
-    if (timeSec == 0){
+    if (timeSec == 0) {
         // total time in seconds
-        timeSec = roundTwoDigits(paceSecMeter*distMeter) ;
-        hour = Math.floor(timeSec/3600);
-        minute = Math.floor(timeSec%3600/60);
-        second = Math.floor(timeSec%3600%60);
-         
+        timeSec = roundTwoDigits(paceSecMeter * distMeter);
+        hour = Math.floor(timeSec / 3600);
+        minute = Math.floor(timeSec % 3600 / 60);
+        second = Math.floor(timeSec % 3600 % 60);
+
         document.getElementById('hour').value = hour;
         document.getElementById('min').value = minute;
         document.getElementById('sec').value = second;
 
 
-    } else if (distMeter == 0){
-        distanceMeter = (timeSec/paceSecMeter);
-        distanceKm = roundTwoDigits(distanceMeter/1000);
-        distanceMi = roundTwoDigits(distanceMeter/1609.34);
+    } else if (distMeter == 0) {
+        distanceMeter = (timeSec / paceSecMeter);
+        distanceKm = roundTwoDigits(distanceMeter / 1000);
+        distanceMi = roundTwoDigits(distanceMeter / 1609.34);
 
-        if (distanceKm == true){
+        if (distanceKm == true) {
             document.getElementById('distance').value = distanceKm;
-        
-        }else if (distanceMi == true){
+
+        } else if (distanceMi == true) {
             document.getElementById('distance').value = distanceMi;
         };
 
 
-    }else if (paceSecMeter == 0){
-        paceSecMeter = (timeSec/distMeter);
-        paceMinKm = roundTwoDigits(paceSecMeter*1000/60);
-        paceMinMi = roundTwoDigits(paceSecMeter*1609.34/60);
+    } else if (paceSecMeter == 0) {
+        paceSecMeter = (timeSec / distMeter);
+        paceMinKm = roundTwoDigits(paceSecMeter * 1000 / 60);
+        paceMinMi = roundTwoDigits(paceSecMeter * 1609.34 / 60);
 
-        if (paceKm == true){
+        if (paceKm == true) {
             document.getElementById('pace').value = (paceMinKm);
-        
-        }else if (paceMi == true){
+
+        } else if (paceMi == true) {
             document.getElementById('pace').value = (paceMinMi);
         };
     };
@@ -147,7 +160,7 @@ function logCurrentInputs() {
     console.log(paceMi);
 };
 
-function logCurrentBaseUnits(){
+function logCurrentBaseUnits() {
     updateInputs();
     timeSec = convertToSmallestUnit('sec');
     distMeter = convertToSmallestUnit('meter');
