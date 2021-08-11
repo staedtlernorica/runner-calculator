@@ -18,49 +18,48 @@
 
     <!-- TIME -->
     <label for="">time</label>
-    <input type="number" id="hour" step='1' min='0' minlength="1" size='7' placeholder="00" onclick="this.select()">
+    <input type="number" id="hour" step='1' min='0' minlength="1" size='7' placeholder="00" onclick="this.select()" class="time">
     <label for="">hour</label>
 
     <!-- implement so that if go over 59 automatically adds 1 to next higher time input -->
     <!-- or maybe let go as high as user want and auto convert it -->
-    <input type="number" id="min" step='1' min='0' max='59' minlength="1" size='7' placeholder="00"
-        onclick="this.select()">
+    <input type="number" id="min" step='1' min='0' max='59' minlength="1" size='7' placeholder="00" onclick="this.select()" class="time">
     <label for="">min</label>
 
-    <input type="number" id="sec" step='1' min='0' max='59' minlength="1" size='7' placeholder="00"
-        onclick="this.select()">
+    <input type="number" id="sec" step='1' min='0' max='59' minlength="1" size='7' placeholder="00" onclick="this.select()" class="time">
     <label for="">sec</label>
 
     <button type="button" onclick="clearInputs('time')">Clear</button>
 
     <br>
+    <br>
 
 
     <!-- DISTANCE -->
     <label for="">distance</label>
-    <input type="number" id="distance" step='1' min='0' minlength="1" size='7' onclick="this.select()">
+    <input type="number" id="distance" step='1' min='0' minlength="1" size='7' onclick="this.select()" class="distance">
 
-    <input type="radio" name="distance-unit" value="km" id="distance-km" onclick="this.select()">
+    <input type="radio" name="distance-unit" value="km" id="distance-km" onclick="this.select()" class="distance"> 
     <label for="distance-km">km</label>
-    <input type="radio" name="distance-unit" value="mi" id="distance-mi" onclick="this.select()">
+    <input type="radio" name="distance-unit" value="mi" id="distance-mi" onclick="this.select()" class="distance">
     <label for="distance-mi">mi</label>
 
     <button type="button" onclick="clearInputs('distance')">Clear</button>
 
     <br>
+    <br>
 
     <!-- PACE -->
     <label for="">pace</label>
-    <input type="number" id="pace-min" step='1' min='0' minlength="1" size='7' placeholder="00" onclick="this.select()">
+    <input type="number" id="pace-min" step='1' min='0' minlength="1" size='7' placeholder="00" onclick="this.select()" class="pace">
     <label for="">min</label>
 
-    <input type="number" id="pace-sec" step='1' min='0' max='59' minlength="1" size='7' placeholder="00"
-        onclick="this.select()">
+    <input type="number" id="pace-sec" step='1' min='0' max='59' minlength="1" size='7' placeholder="00" onclick="this.select()" class="pace"> 
     <label for="">sec</label>
 
-    <input type="radio" name="pace-unit" value="km" id="pace-km">
+    <input type="radio" name="pace-unit" value="km" id="pace-km" class="pace">
     <label for="pace-km">min/km</label>
-    <input type="radio" name="pace-unit" value="mi" id="pace-mi">
+    <input type="radio" name="pace-unit" value="mi" id="pace-mi" class="pace">
     <label for="pace-mi">min/mi</label>
 
     <button type="button" onclick="clearInputs('pace')">Clear</button>
@@ -72,7 +71,7 @@
     <br>
 
     <button type="button" onclick="calculate()">Calculate</button>
-    <button type="button" onclick="clearValue()">Clear</button>
+    <button type="button" onclick="clearValue()">Clear All Inputs</button>
     <button type="button" onclick="logCurrentInputs()">Log</button>
     <button type="button" onclick="logCurrentBaseUnits()">Log base units</button>
 
@@ -81,7 +80,7 @@
     <br>
     <br>
     <h2>Instructions</h2>
-    <p>Use Tab/Shift-Tab to cycle input fields. For the radio buttons km-mi and min/km-min/mi, use left/right or up/down arrow keys to navigate between the radio button options, and Tab/Shift-Tab to cycle next/previous input field. </p>
+    <p>Use Tab/Shift-Tab to cycle input fields, and Spacebar to simulate a click on the clickable/radio buttons. When the radio buttons (km-mi and min/km-min/mi) are selected, use left/right or up/down arrow keys to navigate between the radio button options, and Tab/Shift-Tab to cycle the next/previous input field. </p>
 
 
     <!-- <p>pace = time/distance</p>

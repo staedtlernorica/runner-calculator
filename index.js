@@ -36,22 +36,29 @@ function roundTwoDigits(number) {
 
 function clearInputs(field) {
 
-    if (field == 'time'){
-        hour = min = sec = null;
-    } else if (field == 'distance'){
-        distance = null;
-    } else if (field == 'pace'){
-        pace = null;
+    for (i = 0; i < document.getElementsByClassName(field).length; i++){
+    
+        if (document.getElementsByClassName(field)[i].type == 'number'){
+            document.getElementsByClassName(field)[i].value = null;
+        } else if (document.getElementsByClassName(field)[i].type == 'radio'){
+            document.getElementsByClassName(field)[i].checked = null; 
+        }
     }
-
 };
 
 
-function paceTimeDisplay(time) {
+function paceTimeDisplay(time, unit) {
 
     min = Math.floor(time);
     second = Math.round((time - min) * 60);
-    return (`${min}:${second}`)
+
+    if (unit == 'km'){
+        paceMin = (document.getElementById('pace-min').value = min);
+        paceSec = (document.getElementById('pace-sec').value = second);
+    } else if (unit == 'mi'){
+        paceMin = (document.getElementById('pace-min').value = min);
+        paceSec = (document.getElementById('pace-sec').value = second);
+    }
 };
 
 
@@ -136,10 +143,10 @@ function calculate() {
         paceMinMi = roundTwoDigits(paceSecMeter * 1609.34 / 60);
 
         if (paceKm == true) {
-            document.getElementById('pace').value = (paceMinKm);
+            paceTimeDisplay(paceMinKm, 'km');
 
         } else if (paceMi == true) {
-            document.getElementById('pace').value = (paceMinMi);
+            paceTimeDisplay(paceMinMi, 'mi');
         };
     };
 };
@@ -175,8 +182,8 @@ function clearValue() {
     document.getElementById('distance').value = null;
     document.getElementById('distance-km').checked = false;
     document.getElementById('distance-mi').checked = false;
-    document.getElementById('pace-km').value = null;
-    document.getElementById('pace-mi').value = null;
+    document.getElementById('pace-min').value = null;
+    document.getElementById('pace-sec').value = null;
     document.getElementById('pace-km').checked = false;
     document.getElementById('pace-mi').checked = false;
 };
