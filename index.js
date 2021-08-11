@@ -4,7 +4,8 @@ let hour = Number(document.getElementById('hour').value);
 let min = Number(document.getElementById('min').value);
 let sec = Number(document.getElementById('sec').value);
 let distance = Number(document.getElementById('distance').value);
-let pace = Number(document.getElementById('pace').value);
+let paceMin = Number(document.getElementById('pace-min').value);
+let paceSec = Number(document.getElementById('pace-sec').value);
 
 let distanceKm = document.getElementById('distance-km').checked;
 let distanceMi = document.getElementById('distance-mi').checked;
@@ -17,7 +18,8 @@ function updateInputs() {
     min = Number(document.getElementById('min').value);
     sec = Number(document.getElementById('sec').value);
     distance = Number(document.getElementById('distance').value);
-    pace = Number(document.getElementById('pace').value);
+    paceMin = Number(document.getElementById('pace-min').value);
+    paceSec = Number(document.getElementById('pace-sec').value);
 
     distanceKm = document.getElementById('distance-km').checked;
     distanceMi = document.getElementById('distance-mi').checked;
@@ -55,10 +57,13 @@ function convertToSmallestUnit(baseUnit){
 
     }else if (baseUnit == 'secPerMeter'){
         
+        let paceTime = paceMin*60 + paceSec;
+
+
         if (paceKm == true){
-            return (pace*60/1000);
+            return (paceTime/1000);
         } else if (paceMi == true){
-            return (pace*60/1609.34);
+            return (paceTime/1609.34);
         } 
     }
 };
@@ -136,7 +141,8 @@ function logCurrentInputs() {
     console.log(distance);
     console.log(distanceKm);
     console.log(distanceMi);
-    console.log(pace);
+    console.log(paceKm);
+    console.log(paceMi);
     console.log(paceKm);
     console.log(paceMi);
 };
@@ -156,7 +162,8 @@ function clearValue() {
     document.getElementById('distance').value = null;
     document.getElementById('distance-km').checked = false;
     document.getElementById('distance-mi').checked = false;
-    document.getElementById('pace').value = null;
+    document.getElementById('pace-km').value = null;
+    document.getElementById('pace-mi').value = null;
     document.getElementById('pace-km').checked = false;
     document.getElementById('pace-mi').checked = false;
 };
