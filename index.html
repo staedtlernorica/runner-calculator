@@ -36,10 +36,10 @@
 <input type="number" id="distance" step='1' min='0' minlength="1" size='7'> 
 <!-- <label for="">unit</label> -->
 
-<label for="distance-km">km</label>
 <input type="radio" name="distance-unit" value="km" id="distance-km">
-<label for="distance-mi">mi</label>
+<label for="distance-km">km</label>
 <input type="radio" name="distance-unit" value="mi" id="distance-mi">
+<label for="distance-mi">mi</label>
 
 <!-- <input type="text" id='distance-unit' name="" list="distance-units" size='12' placeholder="km or mi">
     <datalist id="distance-units">
@@ -51,10 +51,16 @@
 <label for="">pace</label>
 <input type="number" id="pace" step='1' min='0' minlength="1" size='7'>  
 
-<label for="pace-km">min/km</label>
+<!-- <input type="number" id="pace-min" step='1' min='0' max='59' minlength="1" size='7' placeholder="00">
+<label for="">min</label>
+
+<input type="number" id="pace-sec" step='1' min='0' max='59' minlength="1" size='7' placeholder="00">
+<label for="">sec</label> -->
+
 <input type="radio" name="pace-unit" value="km" id="pace-km">
-<label for="pace-mi">min/mi</label>
+<label for="pace-km">min/km</label>
 <input type="radio" name="pace-unit" value="mi" id="pace-mi">
+<label for="pace-mi">min/mi</label>
 
 
 <!-- allow for 8.27 min/km to be interpret as 8:27 min/km-->
