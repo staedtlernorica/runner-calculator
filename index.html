@@ -18,15 +18,15 @@
 
     <!-- TIME -->
     <label for="">time</label>
-    <input type="number" id="hour" step='1' min='0' minlength="1" size='7' placeholder="00" onclick="this.select()" class="time">
+    <input type="number" id="hour" step='1' min='0' minlength="1" size='4' placeholder="00" onclick="this.select()" class="time">
     <label for="">hour</label>
 
     <!-- implement so that if go over 59 automatically adds 1 to next higher time input -->
     <!-- or maybe let go as high as user want and auto convert it -->
-    <input type="number" id="min" step='1' min='0' max='59' minlength="1" size='7' placeholder="00" onclick="this.select()" class="time">
+    <input type="number" id="min" step='1' min='0' max='59' minlength="1" size='3' placeholder="00" onclick="this.select()" class="time">
     <label for="">min</label>
 
-    <input type="number" id="sec" step='1' min='0' max='59' minlength="1" size='7' placeholder="00" onclick="this.select()" class="time">
+    <input type="number" id="sec" step='1' min='0' max='59' minlength="1" size='3' placeholder="00" onclick="this.select()" class="time">
     <label for="">sec</label>
 
     <button type="button" onclick="clearInputs('time')">Clear</button>
@@ -37,7 +37,7 @@
 
     <!-- DISTANCE -->
     <label for="">distance</label>
-    <input type="number" id="distance" step='1' min='0' minlength="1" size='7' onclick="this.select()" class="distance">
+    <input type="number" id="distance" step='1' min='0' minlength="1" size='7' placeholder="00" onclick="this.select()" class="distance">
 
     <input type="radio" name="distance-unit" value="km" id="distance-km" onclick="this.select()" class="distance"> 
     <label for="distance-km">km</label>
@@ -51,10 +51,10 @@
 
     <!-- PACE -->
     <label for="">pace</label>
-    <input type="number" id="pace-min" step='1' min='0' minlength="1" size='7' placeholder="00" onclick="this.select()" class="pace">
+    <input type="number" id="pace-min" step='1' min='0' minlength="1" size='4' placeholder="00" onclick="this.select()" class="pace">
     <label for="">min</label>
 
-    <input type="number" id="pace-sec" step='1' min='0' max='59' minlength="1" size='7' placeholder="00" onclick="this.select()" class="pace"> 
+    <input type="number" id="pace-sec" step='1' min='0' max='59' minlength="1" size='3' placeholder="00" onclick="this.select()" class="pace"> 
     <label for="">sec</label>
 
     <input type="radio" name="pace-unit" value="km" id="pace-km" class="pace">

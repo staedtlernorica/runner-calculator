@@ -126,14 +126,14 @@ function calculate() {
 
     } else if (distMeter == 0) {
         distanceMeter = (timeSec / paceSecMeter);
-        distanceKm = roundTwoDigits(distanceMeter / 1000);
-        distanceMi = roundTwoDigits(distanceMeter / 1609.34);
+        distanceMetric = roundTwoDigits(distanceMeter / 1000);
+        distanceImp = roundTwoDigits(distanceMeter / 1609.34);
 
         if (distanceKm == true) {
-            document.getElementById('distance').value = distanceKm;
+            document.getElementById('distance').value = distanceMetric;
 
         } else if (distanceMi == true) {
-            document.getElementById('distance').value = distanceMi;
+            document.getElementById('distance').value = distanceImp;
         };
 
 
