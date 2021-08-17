@@ -1,19 +1,3 @@
-// id OF INPUT FIELDS
-
-// hour
-// min
-// sec
-// distance
-// distance-km
-// distance-mi
-// pace-min
-// pace-sec
-// pace-km
-// pace-mi
-
-
-// rounding 
-
 function valueOf(id) {
     if (document.getElementById(id).type == 'text') {
         return Number(document.getElementById(id).value.trim());
@@ -57,11 +41,11 @@ function baseUnit(unit = '') {
 function calcTime() {
 
     // round right here to avoid giving decimal time answers
-    timeInSec = Math.round(baseUnit('meter') * baseUnit('secPerMeter'));
+    let timeInSec = Math.round(baseUnit('meter') * baseUnit('secPerMeter'));
 
-    hour = Math.floor(timeInSec / 3600);
-    minute = Math.floor(timeInSec % 3600 / 60);
-    second = Math.floor(timeInSec % 3600 % 60);
+    let hour = Math.floor(timeInSec / 3600);
+    let minute = Math.floor(timeInSec % 3600 / 60);
+    let second = Math.floor(timeInSec % 3600 % 60);
 
     changeValue('hour', hour);
     changeValue('min', minute);
@@ -71,7 +55,7 @@ function calcTime() {
 
 function calcDistance() {
 
-    distInMeter = baseUnit('sec') / baseUnit('secPerMeter');
+    let distInMeter = baseUnit('sec') / baseUnit('secPerMeter');
 
     if (valueOf("distance-km") == true) {
         changeValue('distance', Math.round(distInMeter/1000*100)/100);
@@ -92,10 +76,10 @@ function calcPace(){
         paceInMinPerDistance = paceInSecPerMeter * 1609.34 / 60; 
     }
 
-    paceMin = Math.floor(paceInMinPerDistance);
+    let paceMin = Math.floor(paceInMinPerDistance);
     // Math.round((x)*60) vs Math.round(x)*60 b/c dont want to round to early;
     // the lattergives 1 hour/60km = 2min/mi when really 1:37min/mile
-    paceSec = Math.round((paceInMinPerDistance - paceMin)*60);
+    let paceSec = Math.round((paceInMinPerDistance - paceMin)*60);
 
     if (paceSec == 60){
         changeValue('pace-min', paceMin + 1);
