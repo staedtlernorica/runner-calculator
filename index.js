@@ -14,7 +14,7 @@
 
 // rounding 
 
-function lookUpValue(id) {
+function valueOf(id) {
     if (document.getElementById(id).type == 'text') {
         return Number(document.getElementById(id).value.trim());
     } else if (document.getElementById(id).type == 'radio') {
@@ -55,10 +55,10 @@ function baseUnit(unit = '') {
     } else if (unit == 'meter') {
 
         let dist = 0;   //added in so NaN results gives 0;
-        if (lookUpValue("distance-km") == true) {
-            return Number(dist + (lookUpValue('distance')) * 1000);
-        } else if (lookUpValue("distance-mi") == true) {
-            return Number(dist+ (lookUpValue('distance')) * 1609.34);
+        if (valueOf("distance-km") == true) {
+            return Number(dist + (valueOf('distance')) * 1000);
+        } else if (valueOf("distance-mi") == true) {
+            return Number(dist+ (valueOf('distance')) * 1609.34);
         }
 
     } else if (unit == 'secPerMeter') {
@@ -76,9 +76,9 @@ function baseUnit(unit = '') {
             }
         }
         console.log(paceSec);
-        if (lookUpValue('pace-km') == true) {
+        if (valueOf('pace-km') == true) {
             return (paceSec / 1000);
-        } else if (lookUpValue('pace-mi') == true) {
+        } else if (valueOf('pace-mi') == true) {
             return (paceSec / 1609.34);
         }
     }
@@ -104,9 +104,9 @@ function calcDistance() {
 
     distInMeter = baseUnit('sec') / baseUnit('secPerMeter');
 
-    if (lookUpValue("distance-km") == true) {
+    if (valueOf("distance-km") == true) {
         changeValue('distance', Math.round(distInMeter/1000*100)/100);
-    } else if (lookUpValue("distance-mi") == true) {
+    } else if (valueOf("distance-mi") == true) {
         changeValue('distance', Math.round(distInMeter/1609.34*100)/100);
     }
 }
@@ -116,8 +116,7 @@ function calcPace(){
 
     paceInSecPerMeter = baseUnit('sec')/baseUnit('meter');
 
-
-    if (lookUpValue("pace-km") == true){
+    if (valueOf("pace-km") == true){
         paceInMinPerKm = paceInSecPerMeter * 1000 / 60; 
         paceMin = Math.floor(paceInMinPerKm);
         // only need to round paceSec because floorubg paceMin always return integer
@@ -133,12 +132,10 @@ function calcPace(){
             changeValue('pace-sec', paceSec);
         }
 
-        
-
-    } else if (lookUpValue('pace-mi') == true){
+    } else if (valueOf('pace-mi') == true){
         paceInMinPerMi = paceInSecPerMeter * 1609.34 /60;
         paceMin = Math.floor(paceInMinPerMi);
-        paceSec = Math.round((paceInMinPerMi - paceSec)*60);
+        paceSec = Math.round((paceInMinPerMi - paceMin)*60);
 
         if (paceSec == 60){
             changeValue('pace-min', paceMin + 1);
@@ -151,42 +148,56 @@ function calcPace(){
 }
 
 
-function validNumber(number){
+function validNumber(input, checkInteger=false){
 
-    let isNumber = !isNaN(number);
-    let isPositive = false;
-    let isInteger = false;
+    let number = valueOf(input);
+    let isNumber = !isNaN(Number(number));
+    let isPositive = number > 0;
+    let isInteger = Number.isInteger(number);
 
-    return (isNumber && isPositive && isInteger);
+    if (checkInteger == false){
+        return (isNumber && isPositive)
+    }
+    else if (checkInteger == true){
+        return (isNumber && isPositive && isInteger);
+    }
 }
 
 
 function calculate() {
+    // time empty                                           calc time
+    // distance filled, above zero and checked              cond 1
+    // at least one pace filled, above zero and checked     cond 3
+
+    // pace empty but checked                               calc pace
+    // at least one time filled, above zero                 cond 2
+    // distance filled, above zero and checked              cond 1
+
+    // distance empty but checcked                          calc dist
+    // at least one time filled, above zero                 cond 2
+    // at least one pace filled, above zero and checked     cond 3
 
 
-    // at least one time filled and above zero                 cond 2
-    let timeFilled = (!isNaN(lookUpValue('hour')) || !isNaN(lookUpValue('min')) || !isNaN(lookUpValue('sec'))) && (lookUpValue('hour') > 0 || lookUpValue('min') > 0 || lookUpValue('sec') > 0);
+
+    // at least one time filled and above zero                 cond 2    
+    let timeFilled = validNumber('hour', true) || validNumber('min', true) || validNumber('sec', true);
     
-    
+
     // distance filled and above zero, and checked              cond 1
-    let distanceFilled = !isNaN(lookUpValue('distance')) && lookUpValue('distance') > 0;
+    let distanceFilled = validNumber('distance');
     let distanceChecked = distanceObjects[1].checked || distanceObjects[2].checked;
     
-    
+
     // at least one pace filled and above zero, and checked     cond 3
-    let paceFilled = (!isNaN(lookUpValue('pace-min')) || !isNaN(lookUpValue('pace-sec'))) && (lookUpValue('pace-min') > 0 || lookUpValue('pace-sec') > 0);
+    let paceFilled = validNumber('pace-min', true) || validNumber('pace-sec', true);
     let paceChecked = paceObjects[2].checked || paceObjects[3].checked;
     
     
-    
     // appropriate empty input fields
-    let timeEmpty = lookUpValue('hour') + lookUpValue('min') + lookUpValue('sec') === 0;
-    let distanceEmptyButChecked = (lookUpValue('distance') === 0) && distanceChecked;
-    let paceEmptyButChecked =  (lookUpValue('pace-min') + lookUpValue('pace-sec') === 0) && paceChecked;
+    let timeEmpty = valueOf('hour') + valueOf('min') + valueOf('sec') === 0;
+    let distanceEmptyButChecked = (valueOf('distance') === 0) && distanceChecked;
+    let paceEmptyButChecked =  (valueOf('pace-min') + valueOf('pace-sec') === 0) && paceChecked;
 
-
-
-    
 
     if (timeEmpty && distanceFilled && distanceChecked && paceFilled && paceChecked){
         calcTime();
@@ -200,19 +211,6 @@ function calculate() {
     else{
         alert('Invalid inputs! Try again. \n\n Make sure there are no letters, or spaces/tabs between numbers');
     }
-
-    // time empty
-    // distance filled, above zero and checked              cond 1
-    // at least one pace filled, above zero and checked     cond 3
-
-    // pace empty but checked
-    // at least one time filled, above zero                 cond 2
-    // distance filled, above zero and checked              cond 1
-
-    // distance empty but checcked
-    // at least one time filled, above zero                 cond 2
-    // at least one pace filled, above zero and checked     cond 3
-
 }
 
 
