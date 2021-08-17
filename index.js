@@ -113,37 +113,27 @@ function calcDistance() {
 
 
 function calcPace(){
-
-    paceInSecPerMeter = baseUnit('sec')/baseUnit('meter');
+    // try to make it unit agnositc
+    let paceInSecPerMeter = baseUnit('sec')/baseUnit('meter');
+    let paceInMinPerDistance = 0; 
 
     if (valueOf("pace-km") == true){
-        paceInMinPerKm = paceInSecPerMeter * 1000 / 60; 
-        paceMin = Math.floor(paceInMinPerKm);
-        // only need to round paceSec because floorubg paceMin always return integer
-        paceSec = Math.round((paceInMinPerKm - paceMin)*60);
-        
-        // cant believe i'm doing this
-        // avoid pace time of 7:60
-        if (paceSec == 60){
-            changeValue('pace-min', paceMin + 1);
-            changeValue('pace-sec', 0);
-        } else if (paceSec != 60){
-            changeValue('pace-min', paceMin);
-            changeValue('pace-sec', paceSec);
-        }
-
+        paceInMinPerDistance = paceInSecPerMeter * 1000 / 60; 
     } else if (valueOf('pace-mi') == true){
-        paceInMinPerMi = paceInSecPerMeter * 1609.34 /60;
-        paceMin = Math.floor(paceInMinPerMi);
-        paceSec = Math.round((paceInMinPerMi - paceMin)*60);
+        paceInMinPerDistance = paceInSecPerMeter * 1609.34 / 60; 
+    }
 
-        if (paceSec == 60){
-            changeValue('pace-min', paceMin + 1);
-            changeValue('pace-sec', 0);
-        } else if (paceSec != 60){
-            changeValue('pace-min', paceMin);
-            changeValue('pace-sec', paceSec);
-        }
+    paceMin = Math.floor(paceInMinPerDistance);
+    // Math.round(()) b/c dont want to round to early;
+    // else get 1 hour/60km = 2min/mi when really 1:37min/mile
+    paceSec = Math.round((paceInMinPerDistance - paceMin)*60);
+
+    if (paceSec == 60){
+        changeValue('pace-min', paceMin + 1);
+        changeValue('pace-sec', 0);
+    } else if (paceSec != 60){
+        changeValue('pace-min', paceMin);
+        changeValue('pace-sec', paceSec);
     }
 }
 
