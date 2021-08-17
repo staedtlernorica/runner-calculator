@@ -30,6 +30,7 @@
     <label for="">sec</label>
 
     <button type="button" onclick="clearInputs('time')">Clear</button>
+    <button type="button" onclick="calculate()">Calculate</button>
 
     <br>
     <br>
@@ -45,7 +46,8 @@
     <label for="distance-mi">mi</label>
 
     <button type="button" onclick="clearInputs('distance')">Clear</button>
-
+    <button type="button" onclick="calculate()">Calculate</button>
+    
     <br>
     <br>
 
@@ -63,7 +65,7 @@
     <label for="pace-mi">min/mi</label>
 
     <button type="button" onclick="clearInputs('pace')">Clear</button>
-
+    <button type="button" onclick="calculate()">Calculate</button>
 
 
 
@@ -72,8 +74,8 @@
 
     <button type="button" onclick="calculate()">Calculate</button>
     <button type="button" onclick="clearValue()">Clear All Inputs</button>
-    <button type="button" onclick="logCurrentInputs()">Log</button>
-    <button type="button" onclick="logCurrentBaseUnits()">Log base units</button>
+    <!-- <button type="button" onclick="logCurrentInputs()">Log</button>
+    <button type="button" onclick="logCurrentBaseUnits()">Log base units</button> -->
 
 
     <br>
@@ -87,6 +89,12 @@
     <p>distance = time/pace</p>
     <p>time = pace*distance</p> -->
 
+
+    <h2>check user input of hour/min/sec and pace-min/pace-sec are integers only</h2>
+    <p>round timeInSec to integer so the time division goes smoothly</p>
+    <h2>chose text over number because of .trim() </h2>
+
+    <h2>implement if sec/pace-sec is 60 min/pace-min goes up by 1</h2>
 
     <script src="index.js"></script>
 </body>
