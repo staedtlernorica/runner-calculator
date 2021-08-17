@@ -27,59 +27,28 @@ function changeValue(id, newVal) {
 }
 
 
-timeObjects = document.getElementsByClassName('time');
-distanceObjects = document.getElementsByClassName('distance');
-paceObjects = document.getElementsByClassName('pace');
-
 function baseUnit(unit = '') {
 
     if (unit == 'sec') {
 
-        let time = 0;
-        for (i = 0; i < timeObjects.length; i++) {
-
-            if (!isNaN(timeObjects[i].value)) {
-
-                if (i == 0) {
-                    time = time + Number(3600 * timeObjects[i].value);
-                } else if (i == 1) {
-                    time = time + Number(60 * timeObjects[i].value);
-                } else if (i == 2) {
-                    time = time + Number(timeObjects[i].value);
-                }
-            }
-        }
+        let time = valueOf('hour')*3600 + valueOf('min')*60 + valueOf('sec');
         return time;
-
 
     } else if (unit == 'meter') {
 
-        let dist = 0;   //added in so NaN results gives 0;
         if (valueOf("distance-km") == true) {
-            return Number(dist + (valueOf('distance')) * 1000);
+            return Number(valueOf('distance') * 1000);
         } else if (valueOf("distance-mi") == true) {
-            return Number(dist+ (valueOf('distance')) * 1609.34);
+            return Number(valueOf('distance') * 1609.34);
         }
 
     } else if (unit == 'secPerMeter') {
 
-        let paceSec = 0;
-        for (i = 0; i < paceObjects.length; i++) {
-
-            if (!isNaN(paceObjects[i].value)) {
-
-                if (i == 0) {
-                    paceSec = paceSec + Number(60 * paceObjects[i].value);
-                } else if (i == 1) {
-                    paceSec = paceSec + Number(paceObjects[i].value);
-                }
-            }
-        }
-        console.log(paceSec);
+        let paceSecPerMeter = valueOf('pace-min')*60 + valueOf('pace-sec');
         if (valueOf('pace-km') == true) {
-            return (paceSec / 1000);
+            return (paceSecPerMeter / 1000);
         } else if (valueOf('pace-mi') == true) {
-            return (paceSec / 1609.34);
+            return (paceSecPerMeter / 1609.34);
         }
     }
 }
@@ -93,7 +62,7 @@ function calcTime() {
     hour = Math.floor(timeInSec / 3600);
     minute = Math.floor(timeInSec % 3600 / 60);
     second = Math.floor(timeInSec % 3600 % 60);
-    // console.log(timeInSec, hour, minute, second)
+
     changeValue('hour', hour);
     changeValue('min', minute);
     changeValue('sec', second);
@@ -124,8 +93,8 @@ function calcPace(){
     }
 
     paceMin = Math.floor(paceInMinPerDistance);
-    // Math.round(()) b/c dont want to round to early;
-    // else get 1 hour/60km = 2min/mi when really 1:37min/mile
+    // Math.round((x)*60) vs Math.round(x)*60 b/c dont want to round to early;
+    // the lattergives 1 hour/60km = 2min/mi when really 1:37min/mile
     paceSec = Math.round((paceInMinPerDistance - paceMin)*60);
 
     if (paceSec == 60){
