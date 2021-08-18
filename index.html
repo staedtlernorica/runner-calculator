@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pace Calculator</title>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <style>
         body {
             background-color: rgba(139, 51, 69, 0.61);
@@ -40,9 +42,9 @@
     <label for="">distance</label>
     <input type="text" id="distance" step='1' min='0' minlength="1" size='7' placeholder="0" onclick="this.select()" class="distance">
 
-    <input type="radio" name="distance-unit" value="km" id="distance-km" onclick="this.select()" class="distance"> 
+    <input type="radio" name="distance-unit" value="1000" id="distance-km" onclick="this.select()" class="distance"> 
     <label for="distance-km">km</label>
-    <input type="radio" name="distance-unit" value="mi" id="distance-mi" onclick="this.select()" class="distance">
+    <input type="radio" name="distance-unit" value="1609.34" id="distance-mi" onclick="this.select()" class="distance">
     <label for="distance-mi">mi</label>
 
     <button type="button" onclick="clearInputs('distance')">Clear</button>
@@ -59,9 +61,9 @@
     <input type="text" id="pace-sec" step='1' min='0' max='59' minlength="1" size='3' placeholder="0" onclick="this.select()" class="pace"> 
     <label for="">sec</label>
 
-    <input type="radio" name="pace-unit" value="km" id="pace-km" class="pace">
+    <input type="radio" name="pace-unit" value="1000" id="pace-km" class="pace">
     <label for="pace-km">min/km</label>
-    <input type="radio" name="pace-unit" value="mi" id="pace-mi" class="pace">
+    <input type="radio" name="pace-unit" value="1609.34" id="pace-mi" class="pace">
     <label for="pace-mi">min/mi</label>
 
     <button type="button" onclick="clearInputs('pace')">Clear</button>
@@ -95,6 +97,8 @@
     <h2>chose text over number because of .trim() </h2>
 
     <h2>implement if sec/pace-sec is 60 min/pace-min goes up by 1</h2>
+
+    <h2>input records</h2>
 
     <script src="index.js"></script>
 </body>
