@@ -6,10 +6,6 @@ function valueOf(id) {
     };
 }
 
-function changeValue(id, newVal) {
-    document.getElementById(id).value = newVal;
-}
-
 
 function metricImperialFactor(inputField){
     let radioButton = $("input:radio");
@@ -51,29 +47,30 @@ function calcTime() {
     let minute = Math.floor(timeInSec % 3600 / 60);
     let second = Math.floor(timeInSec % 3600 % 60);
 
-    changeValue('hour', hour);
-    changeValue('min', minute);
-    changeValue('sec', second);
+    $('#hour').val(hour)
+    $('#min').val(minute);
+    $('#sec').val(second)
 }
 
 
 function calcDistance() {
     let distInMeter = baseUnit('sec') / baseUnit('secPerMeter');
     let outputUnit = metricImperialFactor('distance');
-    changeValue('distance', Math.round(distInMeter / outputUnit * 100) / 100);
+    let outputDistance = Math.round(distInMeter / outputUnit * 100) / 100;
+    $('#distance').val(outputDistance);
 }
 
 
 function calcPace() {
     let paceInSecPerMeter = baseUnit('sec') / baseUnit('meter');
     let outputUnit = metricImperialFactor('pace');
-    let paceInMinPerDistance = paceInSecPerMeter * outputUnit / 60;
+    let outputPace = paceInSecPerMeter * outputUnit / 60;
 
     // floor instead of round b/c Math.round(6.7) = 7 mins rather than 6min 42sec
-    let paceMin = Math.floor(paceInMinPerDistance);
+    let paceMin = Math.floor(outputPace);
     // Math.round((x)*60) vs Math.round(x)*60 b/c dont want to round to early;
     // the latter gives 1 hour/60km = 2min/mi when really 1:37min/mile
-    let paceSec = Math.round((paceInMinPerDistance - paceMin) * 60);
+    let paceSec = Math.round((outputPace - paceMin) * 60);
 
     // avoid outputs like 7min 60sec; get 8 min 0 sec
     if (paceSec == 60) {
@@ -81,8 +78,8 @@ function calcPace() {
         paceSec = 0;
     }
 
-    changeValue('pace-min', paceMin);
-    changeValue('pace-sec', paceSec);
+    $('#pace-min').val(paceMin);
+    $('#pace-sec').val(paceSec);
 }
 
 
