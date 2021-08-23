@@ -20,7 +20,8 @@ function value(id) {
 }
 
 
-function metricImperialFactor(inputField){
+// automatically finds out which scale button was checked
+function metricImperialScale(inputField){
     let radioButton = $("input:radio");
     let checkedButton = { distance: '',
                             pace: ''    
@@ -41,13 +42,13 @@ function baseUnit(unit = '') {
         return time;
 
     } else if (unit == 'meter') {
-        let outputUnit = metricImperialFactor('distance')
-        return Number(value('distance') * outputUnit);
+        let unitScale = metricImperialScale('distance')
+        return Number(value('distance') * unitScale);
 
     } else if (unit == 'secPerMeter') {
         let paceSecPerMeter = value('pace-min') * 60 + value('pace-sec');
-        let outputUnit = metricImperialFactor('pace');
-        return (paceSecPerMeter/outputUnit);
+        let unitScale = metricImperialScale('pace');
+        return (paceSecPerMeter/unitScale);
     }
 }
 
@@ -68,16 +69,16 @@ function calcTime() {
 
 function calcDistance() {
     let distInMeter = baseUnit('sec') / baseUnit('secPerMeter');
-    let outputUnit = metricImperialFactor('distance');
-    let outputDistance = Math.round(distInMeter / outputUnit * 100) / 100;
+    let unitScale = metricImperialScale('distance');
+    let outputDistance = Math.round(distInMeter / unitScale * 100) / 100;
     $('#distance').val(outputDistance);
 }
 
 
 function calcPace() {
     let paceInSecPerMeter = baseUnit('sec') / baseUnit('meter');
-    let outputUnit = metricImperialFactor('pace');
-    let outputPace = paceInSecPerMeter * outputUnit / 60;
+    let unitScale = metricImperialScale('pace');
+    let outputPace = paceInSecPerMeter * unitScale / 60;
 
     // floor instead of round b/c Math.round(6.7) = 7 mins rather than 6min 42sec
     let paceMin = Math.floor(outputPace);
