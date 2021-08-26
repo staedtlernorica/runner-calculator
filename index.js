@@ -4,152 +4,125 @@ function clearInputs(className) {
     $(selector).prop('checked', false);
 };
 
-
 function clearAllInputs() {
     $('input[type="text"]').val(null);
     $('input[type="radio"]').prop('checked', false);
 }
 
 
-// very robust against whitespaces; 1 1 32 hrs == 1132 hrs;
-function value(id) {
-    if ($(`#${id}`).attr('type') == 'radio'){
-        return $(`#${id}`).prop('checked'); 
-    }
-    return Number($(`#${id}`).val().replace(/\s/g,''));
+// very robust against spaces/tabs; 1 1 32 hrs == 1132 hrs;
+function value(object) {
+    // return Number($(`#${id}`).val().replace(/\s/g,''));
+    return Number(object.val().replace(/\s/g, ''));
 }
 
 
-// automatically finds out which scale button was checked
-function metricImperialScale(inputField){
-    let radioButton = $("input:radio");
-    let checkedButton = { distance: '',
-                            pace: ''    
-                        };
-    for (i = 0; i < radioButton.length; i++){
-        if (radioButton[i].checked == true){
-            checkedButton[radioButton[i].className] = Number(radioButton[i].value);
-        }
-    }
-    return checkedButton[inputField];
-}
-
-
-function baseUnit(unit = '') {
-
-    if (unit == 'sec') {
-        let time = value('hour') * 3600 + value('min') * 60 + value('sec');
-        return time;
-
-    } else if (unit == 'meter') {
-        let unitScale = metricImperialScale('distance')
-        return Number(value('distance') * unitScale);
-
-    } else if (unit == 'secPerMeter') {
-        let paceSecPerMeter = value('pace-min') * 60 + value('pace-sec');
-        let unitScale = metricImperialScale('pace');
-        return (paceSecPerMeter/unitScale);
-    }
-}
-
-
-function calcTime() {
-    // round right here to avoid giving decimal time answers
-    let timeInSec = Math.round(baseUnit('meter') * baseUnit('secPerMeter'));
-
-    let hour = Math.floor(timeInSec / 3600);
-    let minute = Math.floor(timeInSec % 3600 / 60);
-    let second = Math.floor(timeInSec % 3600 % 60);
-
-    $('#hour').val(hour)
-    $('#min').val(minute);
-    $('#sec').val(second)
-}
-
-
-function calcDistance() {
-    let distInMeter = baseUnit('sec') / baseUnit('secPerMeter');
-    let unitScale = metricImperialScale('distance');
-    let outputDistance = Math.round(distInMeter / unitScale * 100) / 100;
-    $('#distance').val(outputDistance);
-}
-
-
-function calcPace() {
-    let paceInSecPerMeter = baseUnit('sec') / baseUnit('meter');
-    let unitScale = metricImperialScale('pace');
-    let outputPace = paceInSecPerMeter * unitScale / 60;
-
-    // floor instead of round b/c Math.round(6.7) = 7 mins rather than 6min 42sec
-    let paceMin = Math.floor(outputPace);
-    // Math.round((x)*60) vs Math.round(x)*60 b/c dont want to round to early;
-    // the latter gives 1 hour/60km = 2min/mi when really 1:37min/mile
-    let paceSec = Math.round((outputPace - paceMin) * 60);
-
-    // avoid outputs like 7min 60sec; get 8 min 0 sec
-    if (paceSec == 60) {
-        paceMin = paceMin + 1;
-        paceSec = 0;
-    }
-
-    $('#pace-min').val(paceMin);
-    $('#pace-sec').val(paceSec);
-}
-
-
-function validNumber(id, checkInteger = false) {
-    let number = value(id);
-    let isPositiveNumber = !isNaN(Number(number)) && number > 0;
-    let isInteger = Number.isInteger(number);
-
-    if (checkInteger == true) {
-        return (isPositiveNumber && isInteger);
-    }
-
-    return (isPositiveNumber)
-}
+// remove = 1000 when done
+let distanceUnit = 1000;
+let paceUnit = 1000;
 
 
 function calculate() {
-    // at least one time filled and above zero                 cond 2    
-    let timeFilled = condition2 = validNumber('hour', true) || validNumber('min', true) || validNumber('sec', true);
+    let userInputs = {
+        hour: value($("#hour")),
+        minute: value($("#min")),
+        second: value($("#sec")),
+        timeAboveZero: value($("#hour")) + value($("#min")) + value($("#sec")),
+        timeInSeconds: value($("#hour"))*3600 + value($("#min"))*60 + value($("#sec")),
+        distance: value($("#distance")),  
+        paceMinute: value($("#pace-min")),
+        paceSecond: value($("#pace-sec")),
+        // maybe eliminate paceAboveZero and timeAboveZero, redundant
+        paceAboveZero: value($("#pace-min")) + value($("#pace-sec")),
+        paceInSecondsPerMeter: value($("#pace-min")) * 60 + value($("#pace-sec"))
+    };
 
-    // distance filled and above zero, and checked              cond 1
-    let distanceFilled = validNumber('distance');
-    let distanceChecked = $('.distance')[1].checked || $('.distance')[2].checked;
-    let condition1 = distanceFilled && distanceChecked;
-
-    // at least one pace filled and above zero, and checked     cond 3
-    let paceFilled = validNumber('pace-min', true) || validNumber('pace-sec', true);
-    let paceChecked = $('.pace')[2].checked || $('.pace')[3].checked;
-    let condition3 = paceFilled && paceChecked;
-
-
-    // appropriate empty input fields for specific conditions
-    let timeEmpty = value('hour') + value('min') + value('sec') === 0;
-    let distanceEmptyButChecked = (value('distance') === 0) && distanceChecked;
-    let paceEmptyButChecked = (value('pace-min') + value('pace-sec') === 0) && paceChecked;
-
-
-    if (timeEmpty && condition1 && condition3) {
-        // time empty                                           calc time
-        // distance filled, above zero and checked              cond 1
-        // at least one pace filled, above zero and checked     cond 3
-        calcTime();
+    let smallest = {
+        time: userInputs.hour * 3600 + userInputs.minute * 60 + userInputs.second,
+        distance: userInputs.distance * distanceUnit,
+        pace: (userInputs.paceMinute * 60 + userInputs.paceSecond) / paceUnit
     }
-    else if (paceEmptyButChecked && condition1 && condition2) {
-        // pace empty but checked                               calc pace
-        // at least one time filled, above zero                 cond 2
-        // distance filled, above zero and checked              cond 1
-        calcPace();
+
+    console.log(userInputs);
+
+    let timeFilled = userInputs.timeAboveZero > 0;
+
+    let distanceChecked = userInputs.distanceUnit != 0;
+    let distanceFilled = userInputs.distance > 0;
+    let distanceCheckedFilled = distanceChecked && distanceFilled;
+    let distanceCheckedEmpty = distanceChecked && !distanceFilled;
+
+    let paceChecked = userInputs.paceUnit != 0;
+    let paceFilled = userInputs.paceAboveZero > 0;
+    let paceCheckedFilled = paceChecked && paceFilled;
+    let paceCheckedEmpty = paceChecked && !paceFilled;
+
+    // have 3 shared conditions and 3 specific conditions
+    if (!timeFilled && distanceCheckedFilled && paceCheckedFilled) {
+
+        let timeInSec = Math.round(smallest.distance * smallest.pace);
+        console.log(smallest);
+        console.log(timeInSec);
+
+        $('#hour').val(Math.floor(timeInSec / 3600));
+        $('#min').val(Math.floor(timeInSec % 3600 / 60));
+        $('#sec').val(Math.floor(timeInSec % 3600 % 60));
     }
-    else if (distanceEmptyButChecked && condition2 && condition3) {
-        // distance empty but checcked                          calc dist
-        // at least one time filled, above zero                 cond 2
-        // at least one pace filled, above zero and checked     cond 3
-        calcDistance();
+    else if (paceCheckedEmpty && timeFilled && distanceCheckedFilled) {
+
+        let paceInSecPerMeter = smallest.time / smallest.distance;
+        let decimalPace = paceInSecPerMeter * paceUnit / 60;
+
+        // floor instead of round b/c Math.round(6.7) = 7 mins rather than 6min 42sec
+        let paceMin = Math.floor(decimalPace);
+        // Math.round((x)*60) vs Math.round(x)*60 b/c dont want to round to early;
+        // the latter gives 1 hour/60km = 2min/mi when really 1:37min/mile
+        let paceSec = Math.round((decimalPace - paceMin) * 60);
+
+        // avoid outputs like 7min 60sec; get 8 min 0 sec
+        if (paceSec == 60) {
+            paceMin = paceMin + 1;
+            paceSec = 0;
+        }
+
+        $('#pace-min').val(paceMin);
+        $('#pace-sec').val(paceSec);
+    }
+    else if (distanceCheckedEmpty && timeFilled && paceCheckedFilled) {
+
+        let distInMeter = smallest.time / smallest.pace;
+        let outputDistance = Math.round(distInMeter / distanceUnit * 100) / 100;
+        console.log(distInMeter, outputDistance);
+        $('#distance').val(outputDistance);
     }
     else {
         alert('Invalid inputs! Try again.');
     }
 }
+
+        // time empty                                           calc time
+        // distance filled, above zero and checked              cond 1
+        // at least one pace filled, above zero and checked     cond 3
+
+        // pace empty but checked                               calc pace
+        // at least one time filled, above zero                 cond 2
+        // distance filled, above zero and checked              cond 1
+
+        // distance empty but checcked                          calc dist
+        // at least one time filled, above zero                 cond 2
+        // at least one pace filled, above zero and checked     cond 3
+
+
+
+// function validNumber(id, checkInteger = false) {
+//     let number = value(id);
+//     let isPositiveNumber = !isNaN(Number(number)) && number > 0;
+//     let isInteger = Number.isInteger(number);
+
+//     if (checkInteger == true) {
+//         return (isPositiveNumber && isInteger);
+//     }
+
+//     return (isPositiveNumber)
+// }
+
