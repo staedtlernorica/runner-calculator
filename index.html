@@ -20,15 +20,15 @@
 
     <!-- TIME -->
     <label for="">time</label>
-    <input type="text" id="hour" step='1' min='0' minlength="1" size='4' placeholder="0" class="time">
+    <input type="number" id="hour" step='1' min='0' minlength="1" size='4' placeholder="0" class="time">
     <label for="">hour</label>
 
     <!-- implement so that if go over 59 automatically adds 1 to next higher time input -->
     <!-- or maybe let go as high as user want and auto convert it -->
-    <input type="text" id="min" step='1' min='0' max='59' minlength="1" size='3' placeholder="0" class="time">
+    <input type="number" id="min" step='1' min='0' max='59' minlength="1" size='3' placeholder="0" class="time">
     <label for="">min</label>
 
-    <input type="text" id="sec" step='1' min='0' max='59' minlength="1" size='3' placeholder="0" class="time">
+    <input type="number" id="sec" step='1' min='0' max='59' minlength="1" size='3' placeholder="0" class="time">
     <label for="">sec</label>
 
     <button type="button" onclick="clearInputs('time')">Clear</button>
@@ -40,7 +40,7 @@
 
     <!-- DISTANCE -->
     <label for="">distance</label>
-    <input type="text" id="distance" step='1' min='0' minlength="1" size='7' placeholder="0" class="distance">
+    <input type="number" id="distance" step='1' min='0' minlength="1" size='7' placeholder="0" class="distance">
 
     <button type="button" id="distance-unit" onclick="changeUnit(this)">km</button>
 
@@ -54,10 +54,10 @@
 
     <!-- PACE -->
     <label for="">pace</label>
-    <input type="text" id="pace-min" step='1' min='0' minlength="1" size='4' placeholder="0" class="pace">
+    <input type="number" id="pace-min" step='1' min='0' minlength="1" size='4' placeholder="0" class="pace">
     <label for="">min</label>
 
-    <input type="text" id="pace-sec" step='1' min='0' max='59' minlength="1" size='3' placeholder="0" class="pace"> 
+    <input type="number" id="pace-sec" step='1' min='0' max='59' minlength="1" size='3' placeholder="0" class="pace"> 
     <label for="">sec</label>
 
     <button type="button" id="pace-unit" onclick="changeUnit(this)">min/km</button>
