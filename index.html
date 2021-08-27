@@ -42,10 +42,9 @@
     <label for="">distance</label>
     <input type="text" id="distance" step='1' min='0' minlength="1" size='7' placeholder="0" class="distance">
 
-    <input type="radio" name="distance-unit" value="1000" id="distance-km" onclick="distanceUnit = 1000" class="distance"> 
-    <label for="distance-km">km</label>
-    <input type="radio" name="distance-unit" value="1609.34" id="distance-mi" onclick="distanceUnit = 1609.34" class="distance">
-    <label for="distance-mi">mi</label>
+    <button type="button" id="distance-unit" onclick="changeUnit(this)">km</button>
+
+<!-- ======================================================================= -->
 
     <button type="button" onclick="clearInputs('distance')">Clear</button>
     <button type="button" onclick="calculate()">Calculate</button>
@@ -61,10 +60,10 @@
     <input type="text" id="pace-sec" step='1' min='0' max='59' minlength="1" size='3' placeholder="0" class="pace"> 
     <label for="">sec</label>
 
-    <input type="radio" name="pace-unit" value="1000" id="pace-km" class="pace"  onclick="paceUnit= 1000">
-    <label for="pace-km">min/km</label>
-    <input type="radio" name="pace-unit" value="1609.34" id="pace-mi" class="pace"  onclick="paceUnit= 1609.34">
-    <label for="pace-mi">min/mi</label>
+    <button type="button" id="pace-unit" onclick="changeUnit(this)">min/km</button>
+
+<!-- ======================================================================= -->
+
 
     <button type="button" onclick="clearInputs('pace')">Clear</button>
     <button type="button" onclick="calculate()">Calculate</button>

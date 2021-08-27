@@ -1,12 +1,20 @@
 function clearInputs(className) {
-    let selector = `input.${className}`;
-    $(selector).val(null);
-    $(selector).prop('checked', false);
+    $(`input.${className}`).val(null);
 };
 
 function clearAllInputs() {
     $('input[type="text"]').val(null);
-    $('input[type="radio"]').prop('checked', false);
+}
+
+
+function changeUnit(button){
+
+    if (button.id === 'distance-unit'){
+        button.innerHTML === 'km' ? (button.innerHTML = 'mi', distanceUnit = 1609.34) : (button.innerHTML = 'km', distanceUnit = 1000);
+
+    } else if (button.id === 'pace-unit'){
+        button.innerHTML === 'min/km' ? (button.innerHTML = 'min/mi', paceUnit = 1609.34) : (button.innerHTML = 'min/km', paceUnit = 1000);
+    }
 }
 
 
@@ -17,7 +25,6 @@ function value(object) {
 }
 
 
-// remove = 1000 when done
 let distanceUnit = 1000;
 let paceUnit = 1000;
 
@@ -27,12 +34,14 @@ function calculate() {
         hour: value($("#hour")),
         minute: value($("#min")),
         second: value($("#sec")),
-        timeAboveZero: value($("#hour")) + value($("#min")) + value($("#sec")),
-        timeInSeconds: value($("#hour"))*3600 + value($("#min"))*60 + value($("#sec")),
         distance: value($("#distance")),  
         paceMinute: value($("#pace-min")),
         paceSecond: value($("#pace-sec")),
         // maybe eliminate paceAboveZero and timeAboveZero, redundant
+
+        timeAboveZero: value($("#hour")) + value($("#min")) + value($("#sec")),
+        timeInSeconds: value($("#hour"))*3600 + value($("#min"))*60 + value($("#sec")),
+
         paceAboveZero: value($("#pace-min")) + value($("#pace-sec")),
         paceInSecondsPerMeter: value($("#pace-min")) * 60 + value($("#pace-sec"))
     };
@@ -43,7 +52,11 @@ function calculate() {
         pace: (userInputs.paceMinute * 60 + userInputs.paceSecond) / paceUnit
     }
 
-    console.log(userInputs);
+    let conditions = {
+
+    }
+
+    // console.log(userInputs);
 
     let timeFilled = userInputs.timeAboveZero > 0;
 
@@ -61,8 +74,6 @@ function calculate() {
     if (!timeFilled && distanceCheckedFilled && paceCheckedFilled) {
 
         let timeInSec = Math.round(smallest.distance * smallest.pace);
-        console.log(smallest);
-        console.log(timeInSec);
 
         $('#hour').val(Math.floor(timeInSec / 3600));
         $('#min').val(Math.floor(timeInSec % 3600 / 60));
@@ -92,7 +103,6 @@ function calculate() {
 
         let distInMeter = smallest.time / smallest.pace;
         let outputDistance = Math.round(distInMeter / distanceUnit * 100) / 100;
-        console.log(distInMeter, outputDistance);
         $('#distance').val(outputDistance);
     }
     else {
