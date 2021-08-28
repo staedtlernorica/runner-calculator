@@ -16,33 +16,31 @@ function changeUnit(unitButton) {
     }
 }
 
-
-let distanceUnit = 1000;
-let paceUnit = 1000;
+// metric default
+let distanceUnit = 1000, paceUnit = 1000;
 
 function calculateTime(smallest) {
-    let timeInSec = Math.round(smallest.distance * smallest.pace);
-
+    const timeInSec = Math.round(smallest.distance * smallest.pace);
     $('#hour').val(Math.floor(timeInSec / 3600));
     $('#min').val(Math.floor(timeInSec % 3600 / 60));
     $('#sec').val(Math.floor(timeInSec % 3600 % 60));
 }
 
 function calculateDistance(smallest) {
-    let distInMeter = smallest.time / smallest.pace;
-    let outputDistance = Math.round(distInMeter / distanceUnit * 100) / 100;
-    $('#distance').val(outputDistance);
+    const distInMeter = smallest.time / smallest.pace;
+    const distInUnit = Math.round(distInMeter / distanceUnit * 100) / 100;
+    $('#distance').val(distInUnit);
 }
 
 function calculatePace(smallest) {
-    let paceInSecPerMeter = smallest.time / smallest.distance;
-    let decimalPace = paceInSecPerMeter * paceUnit / 60;
+    const paceInSecPerMeter = smallest.time / smallest.distance;
+    const paceInMinPerUnit = paceInSecPerMeter * paceUnit / 60;
 
     // floor instead of round b/c Math.round(6.7) = 7 mins rather than 6min 42sec
-    let paceMin = Math.floor(decimalPace);
+    const paceMin = Math.floor(paceInMinPerUnit);
     // Math.round((x)*60) vs Math.round(x)*60 b/c dont want to round to early;
     // the latter gives 1 hour/60km = 2min/mi when really 1:37min/mile
-    let paceSec = Math.round((decimalPace - paceMin) * 60);
+    const paceSec = Math.round((paceInMinPerUnit - paceMin) * 60);
 
     // avoid outputs like 7min 60sec; get 8 min 0 sec
     paceSec === 60 ? (paceMin = paceMin + 1, paceSec = 0) : null;
@@ -54,16 +52,25 @@ function calculatePace(smallest) {
 
 function correctInputs(userInputs) {
     let correctScore = 0;
-    for (let key in userInputs){
-        //add 1 to correctScore if input is 0 or higher
-        userInputs[key] >= 0 ? correctScore++ : null;   
+    const lessThanSixty = ['min', 'sec', 'pace-sec'];
+    for (let inputField in userInputs){
+        
+        let input = userInputs[inputField]
 
-        // add 1 to correctScore if all inputs except distance is integer (dev choice)
-        if (key !== 'distance' && Number.isInteger(userInputs[key])){
+        //add 1 to correctScore if input is 0 or higher
+        input >= 0 ? correctScore++ : null;   
+
+        // add 1 to correctScore if all inputs (except distance) is integer (arbitrary)
+        if (inputField !== 'distance' && Number.isInteger(input)){
+            correctScore++;
+        }
+
+        // add 1 to correctScore if min/sec/pace-sec is less than sixty (arbitrary)
+        if(lessThanSixty.includes(inputField) && (input < 60)){
             correctScore++;
         }
     }
-    if(correctScore === 11){
+    if(correctScore === 14){
         return true;
     }
     return false;
@@ -72,7 +79,7 @@ function correctInputs(userInputs) {
 
 function calculate() {
     // need + sign in front to make it a number
-    let userInputs = {
+    const userInputs = {
         hour: +$("#hour").val(),
         minute: +$("#min").val(),
         second: +$("#sec").val(),
@@ -81,17 +88,17 @@ function calculate() {
         paceSecond: +$("#pace-sec").val(),
     };
 
-    let smallest = {
+    const smallest = {
         time: userInputs.hour * 3600 + userInputs.minute * 60 + userInputs.second,
         distance: userInputs.distance * distanceUnit,
         pace: (userInputs.paceMinute * 60 + userInputs.paceSecond) / paceUnit
     }
 
-    let timeFilled = smallest.time > 0;
-    let distanceFilled = smallest.distance > 0;
-    let paceFilled = smallest.pace > 0;
+    const timeFilled = smallest.time > 0;
+    const distanceFilled = smallest.distance > 0;
+    const paceFilled = smallest.pace > 0;
 
-    // check for correct inputs, then correct conditions
+    // check for correct inputs, then check for correct conditions
     if (correctInputs(userInputs)) {
 
         // have 3 shared conditions and 3 specific conditions

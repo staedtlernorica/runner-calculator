@@ -23,8 +23,6 @@
     <input type="number" id="hour" step='1' min='0' minlength="1" size='4' placeholder="0" class="time">
     <label for="">hour</label>
 
-    <!-- implement so that if go over 59 automatically adds 1 to next higher time input -->
-    <!-- or maybe let go as high as user want and auto convert it -->
     <input type="number" id="min" step='1' min='0' max='59' minlength="1" size='3' placeholder="0" class="time">
     <label for="">min</label>
 
@@ -44,8 +42,6 @@
 
     <button type="button" id="distance-unit" onclick="changeUnit(this)">km</button>
 
-<!-- ======================================================================= -->
-
     <button type="button" onclick="clearInputs('distance')">Clear</button>
     <button type="button" onclick="calculate()">Calculate</button>
     
@@ -62,9 +58,6 @@
 
     <button type="button" id="pace-unit" onclick="changeUnit(this)">min/km</button>
 
-<!-- ======================================================================= -->
-
-
     <button type="button" onclick="clearInputs('pace')">Clear</button>
     <button type="button" onclick="calculate()">Calculate</button>
 
@@ -75,11 +68,8 @@
 
     <button type="button" onclick="calculate()">Calculate</button>
     <button type="button" onclick="clearAllInputs()">Clear All Inputs</button>
-    <!-- <button type="button" onclick="logCurrentInputs()">Log</button>
-    <button type="button" onclick="logCurrentBaseUnits()">Log base units</button> -->
 
 
-    <br>
     <br>
     <br>
     <h2>Instructions</h2>
@@ -89,13 +79,6 @@
     <!-- <p>pace = time/distance</p>
     <p>distance = time/pace</p>
     <p>time = pace*distance</p> -->
-
-
-    <h2>check user input of hour/min/sec and pace-min/pace-sec are integers only</h2>
-    <p>round timeInSec to integer so the time division goes smoothly</p>
-    <h2>chose text over number because of .trim() </h2>
-
-    <h2>implement if sec/pace-sec is 60 min/pace-min goes up by 1</h2>
 
     <h2>input records</h2>
 
