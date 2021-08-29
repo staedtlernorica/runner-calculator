@@ -1,6 +1,6 @@
 function clearInputs(className) {
     $(`input.${className}`).val(null);
-};
+}
 
 function clearAllInputs() {
     $('input[type="number"]').val(null);
@@ -53,15 +53,15 @@ function calculatePace(smallest) {
 function correctInputs(userInputs) {
     let correctScore = 0;
     const lessThanSixty = ['min', 'sec', 'pace-sec'];
-    for (let inputField in userInputs){
-        
+    for (let inputField in userInputs) {
+
         let input = userInputs[inputField]
 
         //add 1 to correctScore if input is 0 or higher
-        input >= 0 ? correctScore++ : null;   
+        input >= 0 ? correctScore++ : null;
 
         // add 1 to correctScore if all inputs (except distance) is integer (arbitrary)
-        if (inputField !== 'distance' && Number.isInteger(input)){
+        if (inputField !== 'distance' && Number.isInteger(input)) {
             correctScore++;
         }
 
@@ -70,7 +70,7 @@ function correctInputs(userInputs) {
             correctScore++;
         }
     }
-    if(correctScore === 14){
+    if (correctScore === 14) {
         return true;
     }
     return false;
@@ -114,8 +114,12 @@ function calculate() {
         else if (timeFilled && !distanceFilled && paceFilled) {
             calculateDistance(smallest);
         }
-        else {
-            alert('Invalid inputs! Try again.');
-        }
+    } else {
+        alert('Invalid inputs! Try again.');
     }
 }
+
+
+
+
+

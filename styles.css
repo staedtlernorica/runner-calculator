@@ -3,3 +3,9 @@
 }
 
 /* https://css-tricks.com/click-once-select-all-click-again-select-normally/ */
+
+
+.calculator{
+    border-width: 20px;
+    border-color: teal;
+}
