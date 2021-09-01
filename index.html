@@ -17,6 +17,7 @@
 
     <h1>A Painless Running Calculator</h1>
 
+    <form action="/index.js"></form>
     <div class="calculator">
 
         <div class="upper">
@@ -54,7 +55,7 @@
                 <!-- DISTANCE -->
                 <input type="number" id="distance" step='0.01' min='0' minlength="1" size='7' placeholder="0"
                     class="distance">
-                <button type="button" id="distance-unit" onclick="changeUnit(this)">km</button>
+                <button type="button" id="distance-unit" class="unit-btn">km</button>
 
                 <br>
                 <br>
@@ -65,35 +66,35 @@
                 <input type="number" id="pace-sec" step='1' min='0' max='59' minlength="1" size='3' placeholder="0"
                     class="pace">
                 <label for="">sec</label>
-                <button type="button" id="pace-unit" onclick="changeUnit(this)">min/km</button>
+                <button type="button" id="pace-unit" class="unit-btn">min/km</button>
             </div>
 
             <div class="input-buttons">
-                <button type="submit" onclick="calculate()" class="calc-button">Calculate</button>
-                <button type="button" onclick="clearInputs('time')">Clear</button>
+                <button type="submit" class="calc-btn">Calculate</button>
+                <button type="button" class='clear-btn' value="time">Clear</button>
 
                 <br>
                 <br>
 
-                <button type="submit" onclick="calculate()" class="calc-button">Calculate</button>
-                <button type="button" onclick="clearInputs('distance')">Clear</button>
+                <button type="submit" class="calc-btn">Calculate</button>
+                <button type="button" class='clear-btn' value="distance">Clear</button>
 
                 <br>
                 <br>
 
-                <button type="submit" onclick="calculate()" class="calc-button">Calculate</button>
-                <button type="button" onclick="clearInputs('pace')">Clear</button>
+                <button type="submit" class="calc-btn">Calculate</button>
+                <button type="button" class='clear-btn' value="pace">Clear</button>
             </div>
             <br>
 
         </div>
         <br>
         <div class="lower">
-            <button type="submit" onclick="calculate()" class="calc-button">Calculate</button>
-            <button type="button" onclick="clearAllInputs()">Clear All Inputs</button>
+            <button type="submit" class="calc-btn">Calculate</button>
+            <button type="reset" class="clear-all-btn">Clear All Inputs</button>
         </div>
     </div>
-
+    </form>
 
     <script src="index.js"></script>
 </body>
