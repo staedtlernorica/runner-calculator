@@ -52,7 +52,7 @@
                 <br>
 
                 <!-- DISTANCE -->
-                <input type="number" id="distance" step='1' min='0' minlength="1" size='7' placeholder="0"
+                <input type="number" id="distance" step='0.01' min='0' minlength="1" size='7' placeholder="0"
                     class="distance">
                 <button type="button" id="distance-unit" onclick="changeUnit(this)">km</button>
 
@@ -69,19 +69,19 @@
             </div>
 
             <div class="input-buttons">
-                <button type="button" onclick="calculate()" class="calc-button">Calculate</button>
+                <button type="submit" onclick="calculate()" class="calc-button">Calculate</button>
                 <button type="button" onclick="clearInputs('time')">Clear</button>
 
                 <br>
                 <br>
 
-                <button type="button" onclick="calculate()" class="calc-button">Calculate</button>
+                <button type="submit" onclick="calculate()" class="calc-button">Calculate</button>
                 <button type="button" onclick="clearInputs('distance')">Clear</button>
 
                 <br>
                 <br>
 
-                <button type="button" onclick="calculate()" class="calc-button">Calculate</button>
+                <button type="submit" onclick="calculate()" class="calc-button">Calculate</button>
                 <button type="button" onclick="clearInputs('pace')">Clear</button>
             </div>
             <br>
@@ -89,7 +89,7 @@
         </div>
         <br>
         <div class="lower">
-            <button type="button" onclick="calculate()" class="calc-button">Calculate</button>
+            <button type="submit" onclick="calculate()" class="calc-button">Calculate</button>
             <button type="button" onclick="clearAllInputs()">Clear All Inputs</button>
         </div>
     </div>

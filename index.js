@@ -7,9 +7,9 @@ function clearAllInputs() {
 }
 
 function changeUnit(unitButton) {
-
+    
     if (unitButton.id === 'distance-unit') {
-        if (unitButton.innerHTML === 'km'){
+        if (unitButton.innerHTML === 'km') {
             unitButton.innerHTML = 'mi';
             distanceUnit = 1609.34
             clearInputs('distance');
@@ -23,7 +23,7 @@ function changeUnit(unitButton) {
 
 
     } else if (unitButton.id === 'pace-unit') {
-        if (unitButton.innerHTML === 'min/km'){
+        if (unitButton.innerHTML === 'min/km') {
             unitButton.innerHTML = 'min/mi';
             paceUnit = 1609.34
             clearInputs('pace');
@@ -71,34 +71,6 @@ function calculatePace(smallest) {
 }
 
 
-function correctInputs(userInputs) {
-    let correctScore = 0;
-    // const lessThanSixty = ['min', 'sec', 'pace-sec'];
-    for (let inputField in userInputs) {
-
-        let inputValue = userInputs[inputField]
-
-        //add 1 to correctScore if input is 0 or higher
-        inputValue >= 0 ? (correctScore++, console.log(inputValue)) : null;
-
-        // add 1 to correctScore if all inputs (except distance) is integer (arbitrary)
-        if (inputField !== 'distance' && Number.isInteger(inputValue)) {
-            correctScore++;
-        }
-
-        // add 1 to correctScore if min/sec/pace-sec is less than sixty (arbitrary)
-        // if(lessThanSixty.includes(inputField) && (0 <= inputValue < 60)){
-        //     correctScore++;
-        // }
-    }
-    // console.log(correctScore);
-    if (correctScore === 11) {
-        return true;
-    }
-    return false;
-}
-
-
 function calculate() {
     // need + sign in front to make it a number
     const userInputs = {
@@ -120,23 +92,27 @@ function calculate() {
     const distanceFilled = smallest.distance > 0;
     const paceFilled = smallest.pace > 0;
 
-    // check for correct inputs, then check for correct conditions
-    if (correctInputs(userInputs)) {
 
-        // have 3 shared conditions and 3 specific conditions
-        // time unfilled,   distance filled,    pace filled
-        // time filled,     distance filled,    pace unfilled
-        // time filled,     distance unfilled,  pace filled
-        if (!timeFilled && distanceFilled && paceFilled) {
-            calculateTime(smallest);
-        }
-        else if (timeFilled && distanceFilled && !paceFilled) {
-            calculatePace(smallest);
-        }
-        else if (timeFilled && !distanceFilled && paceFilled) {
-            calculateDistance(smallest);
-        }
-    } else {
-        alert('Invalid inputs! Try again.');
+    // have 3 shared conditions and 3 specific conditions
+    // time unfilled,   distance filled,    pace filled
+    // time filled,     distance filled,    pace unfilled
+    // time filled,     distance unfilled,  pace filled
+    if (!timeFilled && distanceFilled && paceFilled) {
+        calculateTime(smallest);
+    }
+    else if (timeFilled && distanceFilled && !paceFilled) {
+        calculatePace(smallest);
+    }
+    else if (timeFilled && !distanceFilled && paceFilled) {
+        calculateDistance(smallest);
+    } 
+    else {
+        alert('Not enough or invalid inputs! Try again.');
     }
 }
+
+// TODO
+// highlight what was calculated
+// highlight missing/wrong input
+// quick message saying what was wrong: invalid or missing
+// fortune cookie encouragements
