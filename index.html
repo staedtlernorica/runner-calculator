@@ -6,89 +6,94 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pace Calculator</title>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
-    <style>
-        body {
-            background-color: rgba(139, 51, 69, 0.61);
-        }
-    </style>
 </head>
 
 <body>
 
+    <h1>A Running Calculator That Doesn't Suck</h1>
+
     <div class="calculator">
-        <!-- TIME -->
-        <label for="">time</label>
-        <input type="number" id="hour" step='1' min='0' minlength="1" size='4' placeholder="0" class="time">
-        <label for="">hour</label>
 
-        <input type="number" id="min" step='1' min='0' max='59' minlength="1" size='3' placeholder="0" class="time">
-        <label for="">min</label>
+        <div class="upper">
 
-        <input type="number" id="sec" step='1' min='0' max='59' minlength="1" size='3' placeholder="0" class="time">
-        <label for="">sec</label>
+            <div class="labels">
+                <label for="">Time</label>
 
-        <button type="button" onclick="clearInputs('time')">Clear</button>
-        <button type="button" onclick="calculate()">Calculate</button>
+                <br>
+                <br>
 
+                <label for="">Distance</label>
+
+                <br>
+                <br>
+
+                <label for="">Pace</label>
+            </div>
+
+            <div class="inputs">
+                <!-- TIME -->
+                <input type="number" id="hour" step='1' min='0' minlength="1" size='4' placeholder="0" class="time">
+                <label for="">hour</label>
+
+                <input type="number" id="min" step='1' min='0' max='59' minlength="1" size='3' placeholder="0"
+                    class="time">
+                <label for="">min</label>
+
+                <input type="number" id="sec" step='1' min='0' max='59' minlength="1" size='3' placeholder="0"
+                    class="time">
+                <label for="">sec</label>
+
+                <br>
+                <br>
+
+                <!-- DISTANCE -->
+                <input type="number" id="distance" step='1' min='0' minlength="1" size='7' placeholder="0"
+                    class="distance">
+                <button type="button" id="distance-unit" onclick="changeUnit(this)">km</button>
+
+                <br>
+                <br>
+
+                <!-- PACE -->
+                <input type="number" id="pace-min" step='1' min='0' minlength="1" size='4' placeholder="0" class="pace">
+                <label for="">min</label>
+                <input type="number" id="pace-sec" step='1' min='0' max='59' minlength="1" size='3' placeholder="0"
+                    class="pace">
+                <label for="">sec</label>
+                <button type="button" id="pace-unit" onclick="changeUnit(this)">min/km</button>
+            </div>
+
+            <div class="input-buttons">
+                <button type="button" onclick="calculate()">Calculate</button>
+                <button type="button" onclick="clearInputs('time')">Clear</button>
+
+                <br>
+                <br>
+
+                <button type="button" onclick="calculate()">Calculate</button>
+                <button type="button" onclick="clearInputs('distance')">Clear</button>
+
+                <br>
+                <br>
+
+                <button type="button" onclick="calculate()">Calculate</button>
+                <button type="button" onclick="clearInputs('pace')">Clear</button>
+            </div>
+            <br>
+
+        </div>
         <br>
-        <br>
-
-
-        <!-- DISTANCE -->
-        <label for="">distance</label>
-        <input type="number" id="distance" step='1' min='0' minlength="1" size='7' placeholder="0" class="distance">
-
-        <button type="button" id="distance-unit" onclick="changeUnit(this)">km</button>
-
-        <button type="button" onclick="clearInputs('distance')">Clear</button>
-        <button type="button" onclick="calculate()">Calculate</button>
-
-        <br>
-        <br>
-
-        <!-- PACE -->
-        <label for="">pace</label>
-        <input type="number" id="pace-min" step='1' min='0' minlength="1" size='4' placeholder="0" class="pace">
-        <label for="">min</label>
-
-        <input type="number" id="pace-sec" step='1' min='0' max='59' minlength="1" size='3' placeholder="0"
-            class="pace">
-        <label for="">sec</label>
-
-        <button type="button" id="pace-unit" onclick="changeUnit(this)">min/km</button>
-
-        <button type="button" onclick="clearInputs('pace')">Clear</button>
-        <button type="button" onclick="calculate()">Calculate</button>
-
-
-
-        <br>
-        <br>
-
-        <button type="button" onclick="calculate()">Calculate</button>
-        <button type="button" onclick="clearAllInputs()">Clear All Inputs</button>
-
-
-        <br>
-        <br>
-        <h2>Instructions</h2>
-        <p>Use Tab/Shift-Tab to cycle input fields, and Spacebar to simulate a click on the clickable/radio buttons.
-            When the radio buttons (km-mi and min/km-min/mi) are selected, use left/right or up/down arrow keys to
-            navigate between the radio button options, and Tab/Shift-Tab to cycle the next/previous input field. </p>
-
-
-        <!-- <p>pace = time/distance</p>
-    <p>distance = time/pace</p>
-    <p>time = pace*distance</p> -->
-
-
-
+        <div class="lower">
+            <button type="button" onclick="calculate()">Calculate</button>
+            <button type="button" onclick="clearAllInputs()">Clear All Inputs</button>
+        </div>
     </div>
 
-    <h2>input records</h2>
 
     <script src="index.js"></script>
 </body>

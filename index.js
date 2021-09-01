@@ -52,25 +52,26 @@ function calculatePace(smallest) {
 
 function correctInputs(userInputs) {
     let correctScore = 0;
-    const lessThanSixty = ['min', 'sec', 'pace-sec'];
+    // const lessThanSixty = ['min', 'sec', 'pace-sec'];
     for (let inputField in userInputs) {
 
-        let input = userInputs[inputField]
+        let inputValue = userInputs[inputField]
 
         //add 1 to correctScore if input is 0 or higher
-        input >= 0 ? correctScore++ : null;
+        inputValue >= 0 ? (correctScore++, console.log(inputValue)) : null;
 
         // add 1 to correctScore if all inputs (except distance) is integer (arbitrary)
-        if (inputField !== 'distance' && Number.isInteger(input)) {
+        if (inputField !== 'distance' && Number.isInteger(inputValue)) {
             correctScore++;
         }
 
         // add 1 to correctScore if min/sec/pace-sec is less than sixty (arbitrary)
-        if(lessThanSixty.includes(inputField) && (input < 60)){
-            correctScore++;
-        }
+        // if(lessThanSixty.includes(inputField) && (0 <= inputValue < 60)){
+        //     correctScore++;
+        // }
     }
-    if (correctScore === 14) {
+    // console.log(correctScore);
+    if (correctScore === 11) {
         return true;
     }
     return false;
@@ -118,8 +119,3 @@ function calculate() {
         alert('Invalid inputs! Try again.');
     }
 }
-
-
-
-
-

@@ -5,7 +5,47 @@
 /* https://css-tricks.com/click-once-select-all-click-again-select-normally/ */
 
 
+body {
+    padding: 5% 0;
+    height: 100vh;
+    text-align: center;
+    background: linear-gradient(225deg, #e66465, #6c73c0);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    font-family: 'STIX Two Math', serif;
+}
+
+h1{
+    color:rgba(255,255,255, 0.7)
+}
+
 .calculator{
-    border-width: 20px;
-    border-color: teal;
+    border-style: solid;
+    border-radius: 12px;
+    border-width: 3px;
+    border-color: rgba(255,255,255, 0.6);
+    display: inline-block;
+    min-width: 500px;
+    max-width: 600px;
+    min-height: 165px;
+    max-height: 165px;
+    padding: 10px;
+    background: linear-gradient(45deg, #e66465, #5d64b6);
+    
+}
+
+.upper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+.inputs{
+    text-align: left;
+}
+
+.labels{
+    text-align: left;
+    flex-direction: column;    
 }
