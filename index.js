@@ -9,36 +9,24 @@ function clearAllInputs() {
 function changeUnit(unitButton) {
     
     if (unitButton.id === 'distance-unit') {
-        if (unitButton.innerHTML === 'km') {
-            unitButton.innerHTML = 'mi';
-            distanceUnit = 1609.34
-            clearInputs('distance');
-            calculate();
-        } else {
-            unitButton.innerHTML = 'km';
-            distanceUnit = 1000;
-            clearInputs('distance');
-            calculate();
-        }
 
+        unitButton.innerHTML === 'km' ? 
+        (unitButton.innerHTML = 'mi', distanceUnit = 1609.34) : (unitButton.innerHTML = 'km',distanceUnit = 1000);
+        clearInputs('distance');
+        calculate();
 
     } else if (unitButton.id === 'pace-unit') {
-        if (unitButton.innerHTML === 'min/km') {
-            unitButton.innerHTML = 'min/mi';
-            paceUnit = 1609.34
-            clearInputs('pace');
-            calculate();
-        } else {
-            unitButton.innerHTML = 'min/km';
-            paceUnit = 1000;
-            clearInputs('pace');
-            calculate();
-        }
+        unitButton.innerHTML === 'min/km' ?
+        (unitButton.innerHTML = 'min/mi', paceUnit = 1609.34) :
+        (unitButton.innerHTML = 'min/km', paceUnit = 1000);
+        clearInputs('pace');
+        calculate();
     }
 }
 
 // metric default
 let distanceUnit = 1000, paceUnit = 1000;
+let distanceMetric = true, paceMetric = true;
 
 function calculateTime(smallest) {
     const timeInSec = Math.round(smallest.distance * smallest.pace);
