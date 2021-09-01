@@ -19,6 +19,10 @@ h1{
     color:rgba(255,255,255, 0.7)
 }
 
+button{
+    margin: 0 5px;
+}
+
 .calculator{
     border-style: solid;
     border-radius: 12px;
@@ -31,7 +35,7 @@ h1{
     max-height: 165px;
     padding: 10px;
     background: linear-gradient(45deg, #e66465, #5d64b6);
-    
+    border-radius: 15px 50px;
 }
 
 .upper{

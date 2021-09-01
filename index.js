@@ -9,10 +9,31 @@ function clearAllInputs() {
 function changeUnit(unitButton) {
 
     if (unitButton.id === 'distance-unit') {
-        unitButton.innerHTML === 'km' ? (unitButton.innerHTML = 'mi', distanceUnit = 1609.34) : (unitButton.innerHTML = 'km', distanceUnit = 1000);
+        if (unitButton.innerHTML === 'km'){
+            unitButton.innerHTML = 'mi';
+            distanceUnit = 1609.34
+            clearInputs('distance');
+            calculate();
+        } else {
+            unitButton.innerHTML = 'km';
+            distanceUnit = 1000;
+            clearInputs('distance');
+            calculate();
+        }
+
 
     } else if (unitButton.id === 'pace-unit') {
-        unitButton.innerHTML === 'min/km' ? (unitButton.innerHTML = 'min/mi', paceUnit = 1609.34) : (unitButton.innerHTML = 'min/km', paceUnit = 1000);
+        if (unitButton.innerHTML === 'min/km'){
+            unitButton.innerHTML = 'min/mi';
+            paceUnit = 1609.34
+            clearInputs('pace');
+            calculate();
+        } else {
+            unitButton.innerHTML = 'min/km';
+            paceUnit = 1000;
+            clearInputs('pace');
+            calculate();
+        }
     }
 }
 
