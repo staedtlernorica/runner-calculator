@@ -1,18 +1,18 @@
 $(document).ready(function () {
 
-    $('.calc-btn').on("click", function(){
+    $('.calc-btn').on("click", function () {
         calculate();
     });
 
-    $('.clear-btn').on("click", function(){
+    $('.clear-btn').on("click", function () {
         $(`input.${this.value}`).val(null);
     });
 
-    $('.clear-all-btn').on('click', function(){
+    $('.clear-all-btn').on('click', function () {
         $('input[type="number"]').val(null);
     });
 
-    $(".unit-btn").on('click', function(){
+    $(".unit-btn").on('click', function () {
         changeUnit(this);
     })
 
@@ -23,14 +23,14 @@ $(document).ready(function () {
 
             unitButton.innerHTML === 'km' ?
                 (unitButton.innerHTML = 'mi', distanceUnit = 1609.34) : (unitButton.innerHTML = 'km', distanceUnit = 1000);
-            clearInputs('distance');
+            $(".distance").val("");
             calculate();
 
         } else if (unitButton.id === 'pace-unit') {
             unitButton.innerHTML === 'min/km' ?
                 (unitButton.innerHTML = 'min/mi', paceUnit = 1609.34) :
                 (unitButton.innerHTML = 'min/km', paceUnit = 1000);
-            clearInputs('pace');
+            $(".pace").val("");
             calculate();
         }
     }
@@ -116,3 +116,7 @@ $(document).ready(function () {
     // highlight missing/wrong input
     // quick message saying what was wrong: invalid or missing
     // fortune cookie encouragements
+
+
+    // if you changed the time, then clicked on calculate distance, pace is obviously kept constant; 
+    // change calculate to reflect this
