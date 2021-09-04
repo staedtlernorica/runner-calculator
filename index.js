@@ -18,15 +18,12 @@ $(document).ready(function () {
 
 
     function changeUnit(unitButton) {
-
-        const unitText = $(`span.${unitButton.className}`);        //get km or mi part of button
-        const buttonClass = $(unitButton).attr('class');           //get class of button; distance or pace
-
-        $(`.${buttonClass}`).val('');                              //clear out all distance/pace inputs 
-
-        unitText.text() === 'km' ?
-            ($(unitButton).val('1609.34'), unitText.text('mi')) :
-            ($(unitButton).val('1000'), unitText.text('km'));
+        $(`.${unitButton.className}`).val('');                     //clear out all distance/pace inputs 
+        const kmMiText = $(`span.${unitButton.className}`);        //get km or mi part of button
+       
+        kmMiText.text() === 'km' ?
+            ($(unitButton).val('1609.34'), kmMiText.text('mi')) :
+            ($(unitButton).val('1000'), kmMiText.text('km'));
 
         calculate();
     }
@@ -109,9 +106,11 @@ $(document).ready(function () {
     // TODO
     // highlight what was calculated
     // highlight missing/wrong input
-    // quick message saying what was wrong: invalid or missing
+    // quick message saying what was wrong: invalid/missing/too much
     // fortune cookie encouragements
 
 
     // if you changed the time, then clicked on calculate distance, pace is obviously kept constant; 
     // change calculate to reflect this
+
+    // write unit test
