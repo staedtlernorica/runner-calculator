@@ -12,32 +12,25 @@ $(document).ready(function () {
         $('input[type="number"]').val(null);
     });
 
-    $(".unit-btn").on('click', function () {
+    $("#pace-unit, #distance-unit").on('click', function () {
         changeUnit(this);
     })
 
 
     function changeUnit(unitButton) {
 
-        if (unitButton.id === 'distance-unit') {
+        const unitText = $(`span.${unitButton.className}`);        //get km or mi part of button
+        const buttonClass = $(unitButton).attr('class');           //get class of button; distance or pace
 
-            unitButton.innerHTML === 'km' ?
-                (unitButton.innerHTML = 'mi', distanceUnit = 1609.34) : (unitButton.innerHTML = 'km', distanceUnit = 1000);
-            $(".distance").val("");
-            calculate();
+        $(`.${buttonClass}`).val('');                              //clear out all distance/pace inputs 
 
-        } else if (unitButton.id === 'pace-unit') {
-            unitButton.innerHTML === 'min/km' ?
-                (unitButton.innerHTML = 'min/mi', paceUnit = 1609.34) :
-                (unitButton.innerHTML = 'min/km', paceUnit = 1000);
-            $(".pace").val("");
-            calculate();
-        }
+        unitText.text() === 'km' ?
+            ($(unitButton).val('1609.34'), unitText.text('mi')) :
+            ($(unitButton).val('1000'), unitText.text('km'));
+
+        calculate();
     }
 
-    // metric default
-    let distanceUnit = 1000, paceUnit = 1000;
-    let distanceMetric = true, paceMetric = true;
 
     function calculateTime(smallest) {
         const timeInSec = Math.round(smallest.distance * smallest.pace);
@@ -46,13 +39,13 @@ $(document).ready(function () {
         $('#sec').val(Math.floor(timeInSec % 3600 % 60));
     }
 
-    function calculateDistance(smallest) {
+    function calculateDistance(smallest, distanceUnit) {
         const distInMeter = smallest.time / smallest.pace;
         const distInUnit = Math.round(distInMeter / distanceUnit * 100) / 100;
         $('#distance').val(distInUnit);
     }
 
-    function calculatePace(smallest) {
+    function calculatePace(smallest, paceUnit) {
         const paceInSecPerMeter = smallest.time / smallest.distance;
         const paceInMinPerUnit = paceInSecPerMeter * paceUnit / 60;
 
@@ -79,18 +72,20 @@ $(document).ready(function () {
             distance: +$("#distance").val(),
             paceMinute: +$("#pace-min").val(),
             paceSecond: +$("#pace-sec").val(),
+
+            distanceUnit: +($('button.distance').val()),
+            paceUnit: +($('button.pace').val())
         };
 
         const smallest = {
             time: userInputs.hour * 3600 + userInputs.minute * 60 + userInputs.second,
-            distance: userInputs.distance * distanceUnit,
-            pace: (userInputs.paceMinute * 60 + userInputs.paceSecond) / paceUnit
+            distance: userInputs.distance * userInputs.distanceUnit,
+            pace: (userInputs.paceMinute * 60 + userInputs.paceSecond) / userInputs.paceUnit
         }
 
         const timeFilled = smallest.time > 0;
         const distanceFilled = smallest.distance > 0;
         const paceFilled = smallest.pace > 0;
-
 
         // have 3 shared conditions and 3 specific conditions
         // time unfilled,   distance filled,    pace filled
@@ -100,10 +95,10 @@ $(document).ready(function () {
             calculateTime(smallest);
         }
         else if (timeFilled && distanceFilled && !paceFilled) {
-            calculatePace(smallest);
+            calculatePace(smallest, userInputs.paceUnit);
         }
         else if (timeFilled && !distanceFilled && paceFilled) {
-            calculateDistance(smallest);
+            calculateDistance(smallest, userInputs.distanceUnit);
         }
         else {
             alert('Not enough or invalid inputs! Try again.');
