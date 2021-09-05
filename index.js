@@ -114,3 +114,5 @@ $(document).ready(function () {
     // change calculate to reflect this
 
     // write unit test
+
+    // make proper init in document ready
