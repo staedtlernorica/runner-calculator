@@ -33,6 +33,26 @@ $(document).ready(function () {
 
     }
 
+    function alertOutput(id) {
+
+
+        let timesFlashed = 0
+
+        const alert = setInterval(() => {
+
+            $(id).css('color') === 'rgb(255, 115, 0)' ?
+                ($(id).css('color', 'rgb(255, 255, 255)')) :
+                ($(id).css('color', 'rgb(255, 115, 0)'))
+
+            timesFlashed += 1;
+
+            // even === stop on orange font, odd === white
+            timesFlashed > 7 ?
+                clearInterval(alert) :
+                null
+        }, 300)
+    }
+
 
     function calculateTime(distance, pace) {
         const timeInSec = Math.round(distance * pace);
@@ -46,6 +66,8 @@ $(document).ready(function () {
         sec = String(sec).padStart(2, 0)
 
         $("#time").val(`${hour}:${min}:${sec}`)
+
+        alertOutput('#time')
     }
 
 
@@ -54,6 +76,13 @@ $(document).ready(function () {
         const distInMeter = time / pace;
         const distInUnit = Math.round(distInMeter / distanceUnit * 100) / 100;
         $('#distance').val(distInUnit);
+
+        alertOutput('#distance')
+
+        // easter egg
+        distInUnit === 8 ?
+        window.open('https://youtu.be/BUrfmShtiwc?t=14', '_blank').focus() :
+        null
     }
 
 
@@ -75,6 +104,8 @@ $(document).ready(function () {
         paceSec = String(paceSec).padStart(2, 0)
 
         $('#pace').val(`${paceMin}:${paceSec}`)
+
+        alertOutput('#pace')
     }
 
 
@@ -139,16 +170,23 @@ $(document).ready(function () {
         // time filled,     distance unfilled,  pace filled
         if (!timeInSec && distanceInMeterOrFeet && paceInSec) {
             calculateTime(distanceInMeterOrFeet, paceInSec);
+            ($('#alertBox').val('Donezo'), alertOutput('#alertBox'))
         }
         else if (timeInSec && distanceInMeterOrFeet && !paceInSec) {
             calculatePace(timeInSec, distanceInMeterOrFeet, userInputs.paceUnit);
+            ($('#alertBox').val('Donezo'), alertOutput('#alertBox'))
         }
         else if (timeInSec && !distanceInMeterOrFeet && paceInSec) {
             calculateDistance(timeInSec, paceInSec, userInputs.distanceUnit);
+            ($('#alertBox').val('Donezo'), alertOutput('#alertBox'))
         }
         else {
-            console.log('Not enough or invalid inputs! Try again.');
+            const inputsFilled = (Boolean(timeInSec) + Boolean(distanceInMeterOrFeet) + Boolean(paceInSec))
 
+            // 0, 1, 3 inputs filled
+            inputsFilled <= 2 ?
+            ($('#alertBox').val('Not enough values'), alertOutput('#alertBox')) :
+            ($('#alertBox').val('Too many values'), alertOutput('#alertBox'))
         }
     }
 });

@@ -18,8 +18,8 @@ html{line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}bo
 
 
 body {
-    padding: 5% 0;
-    height: 100vh;
+    padding: 0 0 30px 0 ;
+    min-height: 100vh;
     /* text-align: center; */
     background: linear-gradient(225deg, rgb(78, 78, 78), rgb(42, 60, 36));
     background-size: 100%;
@@ -28,14 +28,14 @@ body {
     
 }
 
-.result{
-    background-color: yellow;
-}
-
-
 h1{
     color:rgba(255,255,255, 0.7);
     text-align: center;
+}
+
+.introBlurb{
+    max-width: 400px;
+    margin: 0 auto 15px auto;
 }
 
 form{
@@ -54,7 +54,6 @@ button{
 }
 
 input{
-    max-width: 165px;
     background-color: transparent;
     border: none;
     border-bottom: 5px rgb(255, 115, 0) solid;
@@ -62,9 +61,11 @@ input{
     font-family: 'calculatorFont', serif;
     font-size: 2.75rem;
     background-color: rgb(42, 60, 36);
-    text-align: center;
-    transition: border-bottom 0.1s linear;
+    /* text-align: center; */
+    padding-left: 5px;
+    transition: border-bottom 0.1s linear,  transform 0.15s linear;
 }
+
 
 input::selection{
     background-color: rgb(197, 89, 0);
@@ -74,6 +75,17 @@ input:hover,
 input:focus,
 input:active{
     border-bottom: white solid 5px;
+}
+
+input.alertBox{
+    width: 100%;
+    padding-left: 2px;
+    margin-bottom: 30px;
+    font-size: 2.6rem;
+}
+
+input.time{
+    max-width: 165px;
 }
 
 input.distance,

@@ -33,9 +33,11 @@
     <form action="/index.js">
         <div class="inputs">
 
+            <input id="alertBox" class="alertBox" type="text" readonly="readonly" placeholder="Everything a okay">
+
             <div class="time">
                 <div class="input">
-                    <input type="text" id="time" placeholder="00:00:00">
+                    <input type="text" class="time" id="time" placeholder="00:00:00">
                 </div>
 
                 <button type="button" class='clear-btn' value="time"><i class="fas fa-times"></i></button>
@@ -74,6 +76,12 @@
             <button type="reset" class="clear-all-btn">Clear All</button>
         </div>
     </form>
+
+    <!-- <div class="introBlurb">
+        <p>Are you tired of <a href="">pace calculators</a> that make you click too damn much just to calculate your pace, or switch between units on the fly? Well this calculator is dedicated to you</p>
+        
+        <p>Can you find the easter egg? Hint: play around with the numbers so that the calculator gives you back 8km or 8 mile ;-)</p>
+    </div> -->
 
     <script src="index.js"></script>
 </body>
