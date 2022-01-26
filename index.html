@@ -6,14 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pace Calculator</title>
+
+    <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;700&amp;family=Roboto:wght@100;300;400;500&amp;display=swap"
         rel="stylesheet">
+
     <link rel="stylesheet" href="styles.css">
+    <!-- jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+    <!-- fontawemse -->
     <script src="https://kit.fontawesome.com/1d5ad86397.js" crossorigin="anonymous"></script>
 
     <!-- Time fields -->
@@ -23,65 +28,50 @@
 
 <body>
 
-    <h1>A Painless Running Calculator</h1>
+    <h1>Pace Calculator</h1>
 
     <form action="/index.js">
-        <div class="calculator">
+        <div class="inputs">
 
-            <div class="upper">
-
-
-                <div class="inputs">
-
-                    <div class="time">
-                        <input type="text" id="time" placeholder="00:00:00">
-                    </div>
-
-
-
-                    <div class="distance">
-                        <input type="number" id="distance" step='0.01' min='0' minlength="1" size='7' placeholder="0"
-                            class="distance">
-                        <button type="button" id="distance-unit" class="distance" value="1000">
-                            <span class="distance">km</span>
-                        </button>
-                    </div>
-
-
-
-                    <div class="pace">                                 
-                        <input type="text" id="pace" placeholder="00:00">
-                        <button type="button" id="pace-unit" class="pace" value="1000">
-                            min/<span class="pace">km</span>
-                        </button>
-                    </div>
-
-                    <!-- PACE -->
-
+            <div class="time">
+                <div class="input">
+                    <input type="text" id="time" placeholder="00:00:00">
                 </div>
 
-                <div class="input-buttons">
+                <button type="button" class='clear-btn' value="time"><i class="fas fa-times"></i></button>
+            </div>
 
-                    <button type="button" class='clear-btn' value="time"><i class="fas fa-times fa-2x"></i></button>
 
-                    <br>
-                    <br>
 
-                    <button type="button" class='clear-btn' value="distance"><i class="fas fa-times fa-2x"></i></button>
-
-                    <br>
-                    <br>
-
-                    <button type="button" class='clear-btn' value="pace"><i class="fas fa-times fa-2x"></i></button>
+            <div class="distance">
+                <div class="input">
+                    <input type="text" class="distance" id="distance" step='0.01' min='0' minlength="1" size='7'
+                        placeholder="0.00">
+                    <button type="button" id="distance-unit" class="distance" value="1000">
+                        <span class="distance">km</span>
+                    </button>
                 </div>
-                <br>
 
+                <button type="button" class='clear-btn' value="distance"><i class="fas fa-times"></i></button>
             </div>
-            <br>
-            <div class="lower">
-                <button type="submit" class="calc-btn">Calculate</button>
-                <button type="reset" class="clear-all-btn">Clear All Inputs</button>
+
+
+            <div class="pace">
+                <div class="input">
+                    <input type="text" class="pace" id="pace" placeholder="00:00">
+                    <button type="button" id="pace-unit" class="pace" value="1000">
+                        min/<span class="pace">km</span>
+                    </button>
+                </div>
+
+                <button type="button" class='clear-btn' value="pace"><i class="fas fa-times"></i></button>
             </div>
+        </div>
+
+
+        <div class="calculateClearAll">
+            <button type="submit" class="calc-btn">Calculate</button>
+            <button type="reset" class="clear-all-btn">Clear All</button>
         </div>
     </form>
 

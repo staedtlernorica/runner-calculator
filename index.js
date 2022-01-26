@@ -18,43 +18,48 @@ $(document).ready(function () {
 
 
     function changeUnit(unitButton) {
-        $(`.${unitButton.className}`).val('');                     //clear out all distance/pace inputs 
-        const kmMiText = $(`span.${unitButton.className}`);        //get km or mi part of button
-       
+
+        $(`#${unitButton.className}`).val('')                     //clear out all distance/pace inputs 
+        const kmMiText = $(`span.${unitButton.className}`)        //get km or mi part of button
+
+        console.log(unitButton.className)
+
         kmMiText.text() === 'km' ?
             ($(unitButton).val('1609.34'), kmMiText.text('mi')) :
             ($(unitButton).val('1000'), kmMiText.text('km'));
 
         calculate();
+
+
     }
 
 
-    function calculateTime(smallest) {
-        const timeInSec = Math.round(smallest.distance * smallest.pace);
+    function calculateTime(distance, pace) {
+        const timeInSec = Math.round(distance * pace);
 
         const hour = (Math.floor(timeInSec / 3600));
         let min = (Math.floor(timeInSec % 3600 / 60));
         let sec = (Math.floor(timeInSec % 3600 % 60));
 
         // convert :2 -> :02
-        min = String(min).padStart(2,0)
-        sec = String(sec).padStart(2,0)
+        min = String(min).padStart(2, 0)
+        sec = String(sec).padStart(2, 0)
 
-        $("#time").val(`${hour}:${min}:${sec}`) 
+        $("#time").val(`${hour}:${min}:${sec}`)
     }
 
 
 
-    function calculateDistance(smallest, distanceUnit) {
-        const distInMeter = smallest.time / smallest.pace;
+    function calculateDistance(time, pace, distanceUnit) {
+        const distInMeter = time / pace;
         const distInUnit = Math.round(distInMeter / distanceUnit * 100) / 100;
         $('#distance').val(distInUnit);
     }
 
 
 
-    function calculatePace(smallest, paceUnit) {
-        const paceInSecPerMeter = smallest.time / smallest.distance;
+    function calculatePace(time, distance, paceUnit) {
+        const paceInSecPerMeter = time / distance;
         const paceInMinPerUnit = paceInSecPerMeter * paceUnit / 60;
 
         // floor instead of round b/c Math.round(6.7) = 7 mins rather than 6min 42sec
@@ -66,14 +71,14 @@ $(document).ready(function () {
         // avoid outputs like 7min 60sec; get 8 min 0 sec
         paceSec === 60 ? (paceMin = paceMin + 1, paceSec = 0) : null;
 
-        paceMin = String(paceMin).padStart(2,0)
-        paceSec = String(paceSec).padStart(2,0)
+        paceMin = String(paceMin).padStart(2, 0)
+        paceSec = String(paceSec).padStart(2, 0)
 
         $('#pace').val(`${paceMin}:${paceSec}`)
     }
 
 
-    function parseTimeInput(time){
+    function parseTimeInput(time) {
         event.preventDefault();
         let timeList = time.split(":").map((number) => {
             return Number(number)
@@ -81,7 +86,9 @@ $(document).ready(function () {
 
         let timeInSeconds;
 
-        timeList.length === 2 ? 
+        // 2 => minutes + seconds => pace
+        // 3 => hours + + mins + secs => time
+        timeList.length === 2 ?
             timeInSeconds = timeList[0] * 60 + timeList[1] :
             timeInSeconds = timeList[0] * 3600 + timeList[1] * 60 + timeList[2]
 
@@ -115,60 +122,89 @@ $(document).ready(function () {
             pace: parseTimeInput($("#pace").val()) / userInputs.paceUnit
         }
 
-        const timeFilled = smallest.time > 0;
-        const distanceFilled = smallest.distance > 0;
-        const paceFilled = smallest.pace > 0;
+        // const timeFilled = smallest.time > 0;
+        // const distanceFilled = smallest.distance > 0;
+        // const paceFilled = smallest.pace > 0;
+
+        const timeInSec = parseTimeInput($("#time").val())
+        const distanceInMeterOrFeet = userInputs.distance * userInputs.distanceUnit
+        const paceInSec = parseTimeInput($("#pace").val()) / userInputs.paceUnit
+
+
+        console.log(timeInSec, distanceInMeterOrFeet, paceInSec)
 
         // have 3 shared conditions and 3 specific conditions
         // time unfilled,   distance filled,    pace filled
         // time filled,     distance filled,    pace unfilled
         // time filled,     distance unfilled,  pace filled
-        if (!timeFilled && distanceFilled && paceFilled) {
-            calculateTime(smallest);
+        if (!timeInSec && distanceInMeterOrFeet && paceInSec) {
+            calculateTime(distanceInMeterOrFeet, paceInSec);
         }
-        else if (timeFilled && distanceFilled && !paceFilled) {
-            calculatePace(smallest, userInputs.paceUnit);
+        else if (timeInSec && distanceInMeterOrFeet && !paceInSec) {
+            calculatePace(timeInSec, distanceInMeterOrFeet, userInputs.paceUnit);
         }
-        else if (timeFilled && !distanceFilled && paceFilled) {
-            calculateDistance(smallest, userInputs.distanceUnit);
+        else if (timeInSec && !distanceInMeterOrFeet && paceInSec) {
+            calculateDistance(timeInSec, paceInSec, userInputs.distanceUnit);
         }
         else {
-            alert('Not enough or invalid inputs! Try again.');
+            console.log('Not enough or invalid inputs! Try again.');
+
         }
     }
 });
 
-    // TODO
-    // highlight what was calculated
-    // highlight missing/wrong input
-    // quick message saying what was wrong: invalid/missing/too much
-    // fortune cookie encouragements
+// TODO
+// highlight what was calculated
+// highlight missing/wrong input
+// quick message saying what was wrong: invalid/missing/too much
+// fortune cookie encouragements
 
 
-    // if you changed the time, then clicked on calculate distance, pace is obviously kept constant; 
-    // change calculate to reflect this
+// if you changed the time, then clicked on calculate distance, pace is obviously kept constant; 
+// change calculate to reflect this
 
-    // write unit test
+// write unit test
 
-    // make proper init in document ready
+// make proper init in document ready
 
 
+// input mask
+// https://stackoverflow.com/a/57542023/6030118
+
+$(function () {
     $('input[id$="time"]').inputmask(
-        "hh:mm:ss", {
-        placeholder: "HH:MM:SS",
+        "99:59:59", {
+        placeholder: "00:00:00",
         insertMode: false,
-        showMaskOnHover: false
+        showMaskOnHover: false,
+        //hourFormat: 12,
+        definitions: {
+            '5': {
+                validator: "[0-5]",
+                cardinality: 1
+            }
+        }
     }
-    );
+    )
+});
 
 
+$(function () {
     $('input[id$="pace"]').inputmask(
-        "hh:mm", {
-        placeholder: "MM:SS",
+        "99:59", {
+        placeholder: "00:00",
         insertMode: false,
-        showMaskOnHover: false
+        showMaskOnHover: false,
+        //hourFormat: 12,
+        definitions: {
+            '5': {
+                validator: "[0-5]",
+                cardinality: 1
+            }
+        }
     }
-    );
+    )
+});
 
 
 
