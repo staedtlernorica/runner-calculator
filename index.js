@@ -5,7 +5,7 @@ $(document).ready(function () {
     });
 
     $('.clear-btn').on("click", function () {
-        $(`input.${this.value}`).val(null);
+        $(`input#${this.value}`).val(null);
     });
 
     $('.clear-all-btn').on('click', function () {
@@ -31,10 +31,19 @@ $(document).ready(function () {
 
     function calculateTime(smallest) {
         const timeInSec = Math.round(smallest.distance * smallest.pace);
-        $('#hour').val(Math.floor(timeInSec / 3600));
-        $('#min').val(Math.floor(timeInSec % 3600 / 60));
-        $('#sec').val(Math.floor(timeInSec % 3600 % 60));
+
+        const hour = (Math.floor(timeInSec / 3600));
+        let min = (Math.floor(timeInSec % 3600 / 60));
+        let sec = (Math.floor(timeInSec % 3600 % 60));
+
+        // convert :2 -> :02
+        min = String(min).padStart(2,0)
+        sec = String(sec).padStart(2,0)
+
+        $("#time").val(`${hour}:${min}:${sec}`) 
     }
+
+
 
     function calculateDistance(smallest, distanceUnit) {
         const distInMeter = smallest.time / smallest.pace;
@@ -42,42 +51,68 @@ $(document).ready(function () {
         $('#distance').val(distInUnit);
     }
 
+
+
     function calculatePace(smallest, paceUnit) {
         const paceInSecPerMeter = smallest.time / smallest.distance;
         const paceInMinPerUnit = paceInSecPerMeter * paceUnit / 60;
 
         // floor instead of round b/c Math.round(6.7) = 7 mins rather than 6min 42sec
-        const paceMin = Math.floor(paceInMinPerUnit);
+        let paceMin = Math.floor(paceInMinPerUnit);
         // Math.round((x)*60) vs Math.round(x)*60 b/c dont want to round to early;
         // the latter gives 1 hour/60km = 2min/mi when really 1:37min/mile
-        const paceSec = Math.round((paceInMinPerUnit - paceMin) * 60);
+        let paceSec = Math.round((paceInMinPerUnit - paceMin) * 60);
 
         // avoid outputs like 7min 60sec; get 8 min 0 sec
         paceSec === 60 ? (paceMin = paceMin + 1, paceSec = 0) : null;
 
-        $('#pace-min').val(paceMin);
-        $('#pace-sec').val(paceSec);
+        paceMin = String(paceMin).padStart(2,0)
+        paceSec = String(paceSec).padStart(2,0)
+
+        $('#pace').val(`${paceMin}:${paceSec}`)
+    }
+
+
+    function parseTimeInput(time){
+        event.preventDefault();
+        let timeList = time.split(":").map((number) => {
+            return Number(number)
+        })
+
+        let timeInSeconds;
+
+        timeList.length === 2 ? 
+            timeInSeconds = timeList[0] * 60 + timeList[1] :
+            timeInSeconds = timeList[0] * 3600 + timeList[1] * 60 + timeList[2]
+
+        // console.log(timeList, timeInSeconds)
+
+        return timeInSeconds
     }
 
 
     function calculate() {
         // need + sign in front to make it a number
         const userInputs = {
-            hour: +$("#hour").val(),
-            minute: +$("#min").val(),
-            second: +$("#sec").val(),
+            // hour: +$("#hour").val(),
+            // minute: +$("#min").val(),
+            // second: +$("#sec").val(),
+            time: parseTimeInput($("#time").val()),
             distance: +$("#distance").val(),
-            paceMinute: +$("#pace-min").val(),
-            paceSecond: +$("#pace-sec").val(),
+            pace: parseTimeInput($("#pace").val()),
+            // paceMinute: +$("#pace-min").val(),
+            // paceSecond: +$("#pace-sec").val(),
 
             distanceUnit: +($('button.distance').val()),
             paceUnit: +($('button.pace').val())
         };
 
+        // console.log(userInputs.time, userInputs.distance, userInputs.pace)
+
         const smallest = {
-            time: userInputs.hour * 3600 + userInputs.minute * 60 + userInputs.second,
+            time: parseTimeInput($("#time").val()),
             distance: userInputs.distance * userInputs.distanceUnit,
-            pace: (userInputs.paceMinute * 60 + userInputs.paceSecond) / userInputs.paceUnit
+            pace: parseTimeInput($("#pace").val()) / userInputs.paceUnit
         }
 
         const timeFilled = smallest.time > 0;
@@ -116,3 +151,24 @@ $(document).ready(function () {
     // write unit test
 
     // make proper init in document ready
+
+
+    $('input[id$="time"]').inputmask(
+        "hh:mm:ss", {
+        placeholder: "HH:MM:SS",
+        insertMode: false,
+        showMaskOnHover: false
+    }
+    );
+
+
+    $('input[id$="pace"]').inputmask(
+        "hh:mm", {
+        placeholder: "MM:SS",
+        insertMode: false,
+        showMaskOnHover: false
+    }
+    );
+
+
+
